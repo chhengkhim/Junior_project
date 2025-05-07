@@ -261,8 +261,8 @@ export default function BookmarkGrid() {
             className={cn(
               "cursor-pointer transition-all hover:shadow-md",
               activeGroup === null
-                ? "bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-700 dark:hover:bg-purple-600"
-                : "hover:border-purple-300 hover:text-purple-600 dark:hover:border-purple-500 dark:hover:text-purple-400",
+                ? "bg-[#1d2b7d] hover:bg-[#1d2b7d] text-white dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]"
+                : "hover:border-purple-300 hover:text-[#1d2b7d] dark:hover:border-[#1d2b7d] dark:hover:text-[#1d2b7d]",
             )}
             onClick={() => handleFilterByGroup(null)}
           >
@@ -275,8 +275,8 @@ export default function BookmarkGrid() {
               className={cn(
                 "cursor-pointer transition-all hover:shadow-md",
                 activeGroup === group
-                  ? "bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-700 dark:hover:bg-purple-600"
-                  : "hover:border-purple-300 hover:text-purple-600 dark:hover:border-purple-500 dark:hover:text-purple-400",
+                  ? "bg-[#1d2b7d] hover:bg-[#1d2b7d] text-white dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]"
+                  : "hover:border-[#1d2b7d] hover:text-[#1d2b7d] dark:hover:border-[#1d2b7d] dark:hover:text-[#1d2b7d]",
               )}
               onClick={() => handleFilterByGroup(group)}
             >
@@ -329,14 +329,14 @@ export default function BookmarkGrid() {
                         value={newGroupName}
                         onChange={(e) => setNewGroupName(e.target.value)}
                         placeholder="Enter group name"
-                        className="focus-visible:ring-purple-500 dark:bg-gray-100 dark:border-slate-700 dark:text-slate-200 dark:placeholder:text-slate-500"
+                        className="focus-visible:ring-[#1d2b7d] dark:bg-gray-100 dark:border-slate-700 dark:text-slate-200 dark:placeholder:text-slate-500"
                       />
                     </div>
                   </div>
                   <div className="flex justify-end">
                     <Button
                       onClick={handleCreateGroup}
-                      className="bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600"
+                      className="bg-[#1d2b7d] hover:bg-[#1d2b7d] dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]"
                     >
                       Create Group
                     </Button>
@@ -375,7 +375,7 @@ export default function BookmarkGrid() {
               <Button
                 size="sm"
                 variant="default"
-                className="gap-1 bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600"
+                className="gap-1 bg-[#1d2b7d] hover:bg-[#1d2b7d] dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add</span>
@@ -407,13 +407,13 @@ export default function BookmarkGrid() {
           className="text-center py-16 px-4 bg-white dark:bg-gray-100 rounded-xl shadow-sm backdrop-blur-sm border border-slate-200 dark:border-slate-800"
         >
           <div className="bg-purple-50 dark:bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <BookmarkIcon className="h-10 w-10 text-purple-500" />
+            <BookmarkIcon className="h-10 w-10 text-[#1d2b7d]" />
           </div>
           <h3 className="mt-4 text-xl font-medium text-slate-800 dark:text-slate-200">No bookmarks found</h3>
           <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-md mx-auto">
             {activeGroup ? `No bookmarks in the "${activeGroup}" group` : "You haven't saved any bookmarks yet"}
           </p>
-          <Button className="mt-6 bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600">
+          <Button className="mt-6 bg-[#1d2b7d] hover:bg-[#1d2b7d] dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]">
             <Plus className="h-4 w-4 mr-2" />
             Add Bookmark
           </Button>

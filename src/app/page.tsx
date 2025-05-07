@@ -1,9 +1,8 @@
-import React from 'react'
-
+import { redirect } from "next/navigation";
+import React from "react";
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <>{redirect("/feed")}</>;
 
-export default page
+};
+
+export default page;

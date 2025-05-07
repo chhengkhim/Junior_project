@@ -57,7 +57,7 @@ export default function BookmarkCard({ bookmark, isSelecting, isSelected, onSele
       <Card
         className={cn(
           "h-full overflow-hidden transition-all duration-200 hover:shadow-lg",
-          isSelected ? "ring-2 ring-purple-500 ring-offset-2" : "hover:border-purple-200",
+          isSelected ? "ring-2 ring-[#1d2b7d] ring-offset-2" : "hover:border-[#1d2b7d]",
         )}
       >
         <div className="relative overflow-hidden group">
@@ -77,20 +77,20 @@ export default function BookmarkCard({ bookmark, isSelecting, isSelected, onSele
               <Checkbox
                 checked={isSelected}
                 onCheckedChange={() => onSelect()}
-                className="h-5 w-5 border-2 border-white dark:bg-gray-100 data-[state=checked]:bg-purple-500 data-[state=checked]:text-white"
+                className="h-5 w-5 border-2 border-white dark:bg-gray-100 data-[state=checked]:bg-[#1d2b7d] data-[state=checked]:text-white"
               />
             </div>
           )}
           {bookmark.group && (
             <div className="absolute top-3 right-3 z-10">
-              <Badge className="bg-purple-500/80 text-white text-xs backdrop-blur-sm">{bookmark.group}</Badge>
+              <Badge className="bg-[#1d2b7d] text-white text-xs backdrop-blur-sm">{bookmark.group}</Badge>
             </div>
           )}
         </div>
 
         <CardContent className="p-5">
           <Link href={bookmark.url} className={cn(isSelecting && "pointer-events-none")}>
-            <h3 className="font-semibold text-lg line-clamp-2 mb-2 text-slate-800 dark:text-slate-200 group-hover:text-purple-600 transition-colors">
+            <h3 className="font-semibold text-lg line-clamp-2 mb-2 text-slate-800 dark:text-slate-200 group-hover:text-[#1d2b7d]transition-colors">
               {bookmark.title}
             </h3>
             <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-2">{bookmark.description}</p>
@@ -127,7 +127,7 @@ export default function BookmarkCard({ bookmark, isSelecting, isSelected, onSele
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 rounded-full text-purple-500 hover:bg-purple-50 hover:text-purple-600 dark:hover:bg-purple-900/20"
+                className="h-8 w-8 rounded-full text-yellow-400 hover:bg-purple-50 hover:text-yellow-400 dark:hover:bg-purple-900/20"
               >
                 <BookmarkIcon className="h-4 w-4 fill-current" />
                 <span className="sr-only">Bookmarked</span>

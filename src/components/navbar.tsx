@@ -16,11 +16,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { TypingAnimation } from "./magicui/typing-animation"
-import { Switch } from "@/components/ui/switch"
+//import { Switch } from "@/components/ui/switch"
 import Image from "next/image"
 
 export function Navbar() {
-  const { theme, systemTheme, setTheme } = useTheme()
+  const { theme, systemTheme } = useTheme() //, setTheme
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -61,7 +61,7 @@ export function Navbar() {
   const logoSrc = currentTheme === "dark" ? logodark : logolight
   return (
     <>
-      <header className="sticky top-4 z-50 flex h-16 items-center border-b md:ml-[16.5rem] mx-4 bg-white dark:bg-[#1d2b7d] px-4 shadow-md shadow-[#212121]/20 rounded-2xl">
+      <header className="sticky top-4 z-50 flex h-16 items-center border-b md:ml-[16.5rem] mx-4 bg-white px-4 shadow-md shadow-[#212121]/20 rounded-2xl">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -80,8 +80,8 @@ export function Navbar() {
                 />
               )}
               <div className="flex items-center gap-2">
-                <BookOpen className="h-6 w-6 text-[#1d2b7d] dark:text-white hidden md:block" />
-                <TypingAnimation className="text-lg font-bold text-[#1d2b7d] dark:text-white hidden md:inline-block uppercase">
+                <BookOpen className="h-6 w-6 text-[#1d2b7d] hidden md:block" />
+                <TypingAnimation className="text-lg font-bold text-[#1d2b7d] hidden md:inline-block uppercase">
                   MindSpeak Uniconfess
                 </TypingAnimation>
               </div>
@@ -98,8 +98,8 @@ export function Navbar() {
               <DropdownMenuTrigger asChild>
                 <Button variant={"ghost"} className="flex items-center gap-2 px-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium dark:text-white hidden sm:inline-block">Pisethsambo Phok</span>
-                    <Avatar className="h-8 w-8 border-2 border-indigo-100 dark:border-indigo-900">
+                    <span className="text-sm font-medium hidden sm:inline-block">Pisethsambo Phok</span>
+                    <Avatar className="h-8 w-8 border-2 border-indigo-100">
                       <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
                       <AvatarFallback>PS</AvatarFallback>
                     </Avatar>
@@ -113,13 +113,10 @@ export function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-gray-800" />
                 <DropdownMenuItem className="flex items-center justify-between focus:bg-[#1d2b7d] focus:text-white">
-                  <span>School: Bachelor</span>
-                  <ChevronDown className="h-4 w-4" />
-                </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center justify-between focus:bg-[#1d2b7d] focus:text-white">
                   <span>Lang: English</span>
                   <ChevronDown className="h-4 w-4" />
                 </DropdownMenuItem>
+                {/* Darkmode
                 <DropdownMenuItem className="flex items-center justify-between focus:bg-[#1d2b7d] focus:text-white">
                   <span>Dark Mode</span>
                   <Switch
@@ -128,10 +125,7 @@ export function Navbar() {
                     className="data-[state=checked]:bg-blue-500"
                   />
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center justify-between focus:bg-[#1d2b7d] focus:text-white">
-                  <span>Help</span>
-                  <ChevronDown className="h-4 w-4" />
-                </DropdownMenuItem>
+                */}
                 <DropdownMenuSeparator className="bg-white" />
                 <DropdownMenuItem className="focus:bg-[#1d2b7d] focus:text-white">
                   <span>Logout</span>
