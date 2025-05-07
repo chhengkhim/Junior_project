@@ -7,10 +7,12 @@ import { ImageIcon, Link2, MapPin, Hash, Smile, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Popover, PopoverTrigger } from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
+import data from "@emoji-mart/data"
+import Picker from "@emoji-mart/react"
 
 interface CreatePostProps {
   onPostCreated: (post: {
@@ -20,6 +22,7 @@ interface CreatePostProps {
       username: string
       avatar: string
       timeAgo: string
+      verified?: boolean
     }
     content: string
     hashtags: string[]
@@ -29,10 +32,19 @@ interface CreatePostProps {
     shares: number
     bookmarked: boolean
     liked: boolean
-    commentsList: { id: number; author: string; content: string; timeAgo: string }[]
+    commentsList: {
+      id: number
+      author: string
+      username: string
+      avatar: string
+      content: string
+      timeAgo: string
+      likes: number
+    }[]
     location?: string
     mood?: string
-    postType: "image" | "link" | "text"
+    activity?: string
+    postType?: "text" | "image" | "link" | "event"
   }) => void
 }
 
@@ -47,7 +59,9 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
   const [showLocationInput, setShowLocationInput] = useState(false)
   const [showFeelingInput, setShowFeelingInput] = useState(false)
   const [images, setImages] = useState<string[]>([])
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Common feelings/moods
   const commonFeelings = [
@@ -89,9 +103,29 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
     setImages(newImages)
   }
 
+  const handleEmojiSelect = (emoji: { native: string }) => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const newContent = content.substring(0, start) + emoji.native + content.substring(end)
+      setContent(newContent)
+
+      // Set cursor position after the inserted emoji
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + emoji.native.length
+        textarea.focus()
+      }, 0)
+    } else {
+      setContent(content + emoji.native)
+    }
+    setShowEmojiPicker(false)
+  }
 
   const handleSubmit = () => {
     if (!content.trim() && images.length === 0) return
+
+    const postType = images.length > 0 ? "image" : url ? "link" : "text"
 
     const newPost = {
       id: Date.now(),
@@ -100,6 +134,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
         username: "@currentuser",
         avatar: "/placeholder.svg?height=40&width=40",
         timeAgo: "Just now",
+        verified: false,
       },
       content: content,
       hashtags: hashtags,
@@ -112,30 +147,10 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
       commentsList: [],
       location: location || undefined,
       mood: feeling || undefined,
-      postType: images.length > 0 ? "image" : url ? "link" : "text",
+      postType: postType as "text" | "image" | "link" | "event",
     }
 
-    onPostCreated(newPost as {
-      id: number
-      author: {
-        name: string
-        username: string
-        avatar: string
-        timeAgo: string
-      }
-      content: string
-      hashtags: string[]
-      image?: string
-      likes: number
-      comments: number
-      shares: number
-      bookmarked: boolean
-      liked: boolean
-      commentsList: { id: number; author: string; content: string; timeAgo: string }[]
-      location?: string
-      mood?: string
-      postType: "image" | "link" | "text"
-    })
+    onPostCreated(newPost)
 
     // Reset form
     setContent("")
@@ -163,6 +178,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
 
         <div className="flex-1 space-y-3">
           <Textarea
+            ref={textareaRef}
             placeholder="What's on your mind?"
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -171,7 +187,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
 
           {/* Image preview area */}
           {images.length > 0 && (
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 mt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
               {images.map((img, index) => (
                 <div key={index} className="relative rounded-lg overflow-hidden aspect-video">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -183,6 +199,8 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                   <Button
                     onClick={() => handleRemoveImage(index)}
                     className="absolute top-1 right-1 bg-black bg-opacity-50 rounded-full p-1 text-white"
+                    size="icon"
+                    variant="ghost"
                   >
                     <X size={14} />
                   </Button>
@@ -197,7 +215,12 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
               {hashtags.map((tag, index) => (
                 <div key={index} className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-sm flex items-center">
                   #{tag}
-                  <Button onClick={() => handleRemoveHashtag(tag)} className="ml-1 text-gray-500 hover:text-gray-700">
+                  <Button
+                    onClick={() => handleRemoveHashtag(tag)}
+                    className="ml-1 text-gray-500 hover:text-gray-700 p-0 h-auto"
+                    variant="ghost"
+                    size="sm"
+                  >
                     <X size={14} />
                   </Button>
                 </div>
@@ -285,7 +308,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
 
           {/* Hashtag input */}
           <AnimatePresence>
-            {currentHashtag && (
+            {currentHashtag !== "" && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
@@ -367,13 +390,13 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                 variant="ghost"
                 size="sm"
                 className="p-1 sm:p-2 h-8 text-gray-600 hover:text-blue-500 hover:bg-blue-50"
-                onClick={() => setCurrentHashtag(currentHashtag ? "" : " ")}
+                onClick={() => setCurrentHashtag(currentHashtag === "" ? " " : "")}
               >
                 <Hash size={16} className="sm:mr-1" />
                 <span className="hidden sm:inline">Hashtag</span>
               </Button>
 
-              <Popover>
+              <Popover open={showEmojiPicker} onOpenChange={setShowEmojiPicker}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="ghost"
@@ -384,6 +407,15 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                     <span className="hidden sm:inline">Emoji</span>
                   </Button>
                 </PopoverTrigger>
+                <PopoverContent className="w-full p-0 border-none shadow-xl" align="start" side="top">
+                  <Picker
+                    data={data}
+                    onEmojiSelect={handleEmojiSelect}
+                    theme="light"
+                    previewPosition="none"
+                    skinTonePosition="none"
+                  />
+                </PopoverContent>
               </Popover>
             </div>
 

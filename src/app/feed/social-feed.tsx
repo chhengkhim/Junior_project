@@ -1,7 +1,7 @@
-"use client"
-import { useState, useEffect } from "react"
-import logo8 from "@/assets/logo8.png"
-import user from "@/assets/user.jpg"
+"use client";
+import { useState, useEffect } from "react";
+import logo8 from "@/assets/logo8.png";
+import user from "@/assets/user.jpg";
 import {
   Heart,
   MessageCircle,
@@ -14,47 +14,51 @@ import {
   Calendar,
   MapPin,
   Link2,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import Image from "next/image"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
-import CreatePost from "./create-post"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import CreatePost from "./create-post";
 
 // Sample data for posts with more content variety
 const initialPosts: {
-  id: number
+  id: number;
   author: {
-    name: string
-    username: string
-    avatar: string
-    timeAgo: string
-    verified?: boolean
-  }
-  content: string
-  hashtags: string[]
-  image?: string
-  likes: number
-  comments: number
-  shares: number
-  bookmarked: boolean
-  liked: boolean
+    name: string;
+    username: string;
+    avatar: string;
+    timeAgo: string;
+    verified?: boolean;
+  };
+  content: string;
+  hashtags: string[];
+  image?: string;
+  likes: number;
+  comments: number;
+  shares: number;
+  bookmarked: boolean;
+  liked: boolean;
   commentsList: {
-    id: number
-    author: string
-    username: string
-    avatar: string
-    content: string
-    timeAgo: string
-    likes: number
-  }[]
-  location?: string
-  mood?: string
-  activity?: string
-  postType?: "text" | "image" | "link" | "event"
+    id: number;
+    author: string;
+    username: string;
+    avatar: string;
+    content: string;
+    timeAgo: string;
+    likes: number;
+  }[];
+  location?: string;
+  mood?: string;
+  activity?: string;
+  postType?: "text" | "image" | "link" | "event";
 }[] = [
   {
     id: 1,
@@ -82,7 +86,8 @@ const initialPosts: {
         author: "Jane Smith",
         username: "@janesmith",
         avatar: logo8.src,
-        content: "Looks like you had a great time! Can't wait to hear more about the project.",
+        content:
+          "Looks like you had a great time! Can't wait to hear more about the project.",
         timeAgo: "1 hour ago",
         likes: 5,
       },
@@ -91,7 +96,8 @@ const initialPosts: {
         author: "Dave Bishop",
         username: "@davebishop",
         avatar: logo8.src,
-        content: "It was great meeting up! Looking forward to our next session.",
+        content:
+          "It was great meeting up! Looking forward to our next session.",
         timeAgo: "45 minutes ago",
         likes: 3,
       },
@@ -130,7 +136,8 @@ const initialPosts: {
         author: "Michael Chen",
         username: "@michaelchen",
         avatar: logo8.src,
-        content: "Incredible work as always! The attention to detail is impressive.",
+        content:
+          "Incredible work as always! The attention to detail is impressive.",
         timeAgo: "2 hours ago",
         likes: 8,
       },
@@ -139,7 +146,8 @@ const initialPosts: {
         author: "Emma Wilson",
         username: "@emmawilson",
         avatar: logo8.src,
-        content: "Can't wait to see the full project! The teaser looks promising.",
+        content:
+          "Can't wait to see the full project! The teaser looks promising.",
         timeAgo: "1 hour ago",
         likes: 5,
       },
@@ -196,13 +204,15 @@ const initialPosts: {
     commentsList: [],
     postType: "link",
   },
-]
+];
 
 export default function SocialFeed() {
-  const [posts, setPosts] = useState(initialPosts)
-  const [commentInputs, setCommentInputs] = useState<Record<number, string>>({})
-  const [showComments, setShowComments] = useState<Record<number, boolean>>({})
-  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [posts, setPosts] = useState(initialPosts);
+  const [commentInputs, setCommentInputs] = useState<Record<number, string>>(
+    {}
+  );
+  const [showComments, setShowComments] = useState<Record<number, boolean>>({});
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Handle post liking
   const handleLike = (postId: number) => {
@@ -213,12 +223,12 @@ export default function SocialFeed() {
             ...post,
             likes: post.liked ? post.likes - 1 : post.likes + 1,
             liked: !post.liked,
-          }
+          };
         }
-        return post
-      }),
-    )
-  }
+        return post;
+      })
+    );
+  };
 
   // Handle post bookmarking
   const handleBookmark = (postId: number) => {
@@ -228,24 +238,24 @@ export default function SocialFeed() {
           return {
             ...post,
             bookmarked: !post.bookmarked,
-          }
+          };
         }
-        return post
-      }),
-    )
-  }
+        return post;
+      })
+    );
+  };
 
   // Toggle comments visibility
   const toggleComments = (postId: number) => {
     setShowComments((prev) => ({
       ...prev,
       [postId]: !prev[postId],
-    }))
-  }
+    }));
+  };
 
   // Add comment to post
   const addComment = (postId: number) => {
-    if (!commentInputs[postId] || commentInputs[postId].trim() === "") return
+    if (!commentInputs[postId] || commentInputs[postId].trim() === "") return;
 
     setPosts(
       posts.map((post) => {
@@ -258,23 +268,23 @@ export default function SocialFeed() {
             content: commentInputs[postId],
             timeAgo: "Just now",
             likes: 0,
-          }
+          };
           return {
             ...post,
             comments: post.comments + 1,
             commentsList: [...(post.commentsList || []), newComment],
-          }
+          };
         }
-        return post
-      }),
-    )
+        return post;
+      })
+    );
 
     // Clear the comment input
     setCommentInputs((prev) => ({
       ...prev,
       [postId]: "",
-    }))
-  }
+    }));
+  };
 
   // Share post
   const sharePost = (postId: number) => {
@@ -284,57 +294,59 @@ export default function SocialFeed() {
           return {
             ...post,
             shares: post.shares + 1,
-          }
+          };
         }
-        return post
-      }),
-    )
-    alert(`Sharing post ${postId}! In a real app, this would open a share dialog.`)
-  }
+        return post;
+      })
+    );
+    alert(
+      `Sharing post ${postId}! In a real app, this would open a share dialog.`
+    );
+  };
 
   // Handle scroll event
   const handleScroll = () => {
     if (window.scrollY > 300) {
-      setShowScrollTop(true)
+      setShowScrollTop(true);
     } else {
-      setShowScrollTop(false)
+      setShowScrollTop(false);
     }
-  }
+  };
 
   // Scroll to top function
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    })
-  }
+    });
+  };
 
   // Add scroll event listener
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Get post icon based on type
   const getPostTypeIcon = (type?: string) => {
     switch (type) {
       case "link":
-        return <Link2 className="w-4 h-4" />
+        return <Link2 className="w-4 h-4" />;
       case "event":
-        return <Calendar className="w-4 h-4" />
+        return <Calendar className="w-4 h-4" />;
       case "image":
-        return <ImageIcon className="w-4 h-4" />
+        return <ImageIcon className="w-4 h-4" />;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   // Handle new post creation
-  const handlePostCreated = (newPost: typeof initialPosts[number]) => {
-    setPosts([newPost, ...posts])
-  }
+  const handlePostCreated = (newPost: (typeof initialPosts)[number]) => {
+    setPosts([newPost, ...posts]);
+  };
 
   return (
     <div className="max-w-3xl mx-auto rounded-2xl space-y-6 px-4 py-6">
@@ -387,14 +399,23 @@ export default function SocialFeed() {
               <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    <AvatarImage src={post.author.avatar || "/placeholder.svg"} alt={post.author.name} />
-                    <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage
+                      src={post.author.avatar || "/placeholder.svg"}
+                      alt={post.author.name}
+                    />
+                    <AvatarFallback>
+                      {post.author.name.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                   <div>
                     <div className="flex items-center">
                       <h3 className="font-semibold">{post.author.name}</h3>
                       {post.author.verified && (
-                        <svg className="w-4 h-4 ml-1 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          className="w-4 h-4 ml-1 text-blue-500"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                         </svg>
                       )}
@@ -406,7 +427,9 @@ export default function SocialFeed() {
                       {post.postType && (
                         <>
                           <span>•</span>
-                          <span className="flex items-center">{getPostTypeIcon(post.postType)}</span>
+                          <span className="flex items-center">
+                            {getPostTypeIcon(post.postType)}
+                          </span>
                         </>
                       )}
                     </div>
@@ -433,7 +456,10 @@ export default function SocialFeed() {
                 </div>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="ghost" className="text-gray-500 p-1 h-auto rounded-full hover:bg-gray-100">
+                    <Button
+                      variant="ghost"
+                      className="text-gray-500 p-1 h-auto rounded-full hover:bg-gray-100"
+                    >
                       <MoreVertical size={20} />
                     </Button>
                   </PopoverTrigger>
@@ -463,11 +489,17 @@ export default function SocialFeed() {
               </div>
 
               <div className="mt-3">
-                <p className="text-gray-800 whitespace-pre-line">{post.content}</p>
+                <p className="text-gray-800 whitespace-pre-line">
+                  {post.content}
+                </p>
                 {post.hashtags && post.hashtags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {post.hashtags.map((tag) => (
-                      <a key={tag} href="#" className="text-blue-500 text-sm hover:underline">
+                      <a
+                        key={tag}
+                        href="#"
+                        className="text-blue-500 text-sm hover:underline"
+                      >
                         #{tag}
                       </a>
                     ))}
@@ -493,11 +525,16 @@ export default function SocialFeed() {
                     variant="ghost"
                     className={cn(
                       "flex items-center space-x-1 p-1 h-auto rounded-lg",
-                      post.liked ? "text-red-500" : "text-gray-500 hover:text-red-500",
+                      post.liked
+                        ? "text-red-500"
+                        : "text-gray-500 hover:text-red-500"
                     )}
                     onClick={() => handleLike(post.id)}
                   >
-                    <Heart size={18} fill={post.liked ? "currentColor" : "none"} />
+                    <Heart
+                      size={18}
+                      fill={post.liked ? "currentColor" : "none"}
+                    />
                     <span>{post.likes}</span>
                   </Button>
                   <Button
@@ -521,11 +558,16 @@ export default function SocialFeed() {
                   variant="ghost"
                   className={cn(
                     "text-gray-500 p-1 h-auto rounded-lg",
-                    post.bookmarked ? "text-yellow-500" : "hover:text-yellow-500",
+                    post.bookmarked
+                      ? "text-yellow-500"
+                      : "hover:text-yellow-500"
                   )}
                   onClick={() => handleBookmark(post.id)}
                 >
-                  <Bookmark size={18} fill={post.bookmarked ? "currentColor" : "none"} />
+                  <Bookmark
+                    size={18}
+                    fill={post.bookmarked ? "currentColor" : "none"}
+                  />
                 </Button>
               </div>
 
@@ -551,21 +593,36 @@ export default function SocialFeed() {
                           className="flex space-x-2"
                         >
                           <Avatar className="w-8 h-8">
-                            <AvatarImage src={comment.avatar || "/placeholder.svg"} alt={comment.author} />
-                            <AvatarFallback>{comment.author.charAt(0)}</AvatarFallback>
+                            <AvatarImage
+                              src={comment.avatar || "/placeholder.svg"}
+                              alt={comment.author}
+                            />
+                            <AvatarFallback>
+                              {comment.author.charAt(0)}
+                            </AvatarFallback>
                           </Avatar>
                           <div className="bg-gray-50 rounded-lg p-2 flex-1">
                             <div className="flex justify-between items-center">
                               <div>
-                                <span className="font-medium text-sm">{comment.author}</span>
-                                <span className="text-xs text-gray-500 ml-1">{comment.username}</span>
+                                <span className="font-medium text-sm">
+                                  {comment.author}
+                                </span>
+                                <span className="text-xs text-gray-500 ml-1">
+                                  {comment.username}
+                                </span>
                               </div>
-                              <span className="text-xs text-gray-500">{comment.timeAgo}</span>
+                              <span className="text-xs text-gray-500">
+                                {comment.timeAgo}
+                              </span>
                             </div>
                             <p className="text-sm mt-1">{comment.content}</p>
                             <div className="flex items-center mt-1 space-x-2">
-                              <button className="text-xs text-gray-500 hover:text-gray-700">Like</button>
-                              <button className="text-xs text-gray-500 hover:text-gray-700">Reply</button>
+                              <button className="text-xs text-gray-500 hover:text-gray-700">
+                                Like
+                              </button>
+                              <button className="text-xs text-gray-500 hover:text-gray-700">
+                                Reply
+                              </button>
                               <div className="flex items-center text-xs text-gray-500">
                                 <Heart size={12} className="mr-1" />
                                 {comment.likes}
@@ -576,13 +633,18 @@ export default function SocialFeed() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 mb-3">No comments yet</p>
+                    <p className="text-sm text-gray-500 mb-3">
+                      No comments yet
+                    </p>
                   )}
 
                   {/* Add comment */}
                   <div className="flex space-x-2">
                     <Avatar className="w-8 h-8">
-                      <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Your profile" />
+                      <AvatarImage
+                        src="/placeholder.svg?height=32&width=32"
+                        alt="Your profile"
+                      />
                       <AvatarFallback>CU</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 flex">
@@ -590,12 +652,17 @@ export default function SocialFeed() {
                         type="text"
                         placeholder="Write a comment..."
                         value={commentInputs[post.id] || ""}
-                        onChange={(e) => setCommentInputs({ ...commentInputs, [post.id]: e.target.value })}
+                        onChange={(e) =>
+                          setCommentInputs({
+                            ...commentInputs,
+                            [post.id]: e.target.value,
+                          })
+                        }
                         className="flex-1 text-sm rounded-r-none focus:ring-1 focus:ring-primary/20"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            e.preventDefault()
-                            addComment(post.id)
+                            e.preventDefault();
+                            addComment(post.id);
                           }
                         }}
                       />
@@ -646,5 +713,5 @@ export default function SocialFeed() {
         </motion.div>
       )}
     </div>
-  )
+  );
 }
