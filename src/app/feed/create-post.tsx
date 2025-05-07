@@ -7,10 +7,9 @@ import { ImageIcon, Link2, MapPin, Hash, Smile, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Popover, PopoverTrigger } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import EmojiPicker from "emoji-picker-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 interface CreatePostProps {
@@ -90,9 +89,6 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
     setImages(newImages)
   }
 
-  const handleEmojiClick = (emojiData: { emoji: string }) => {
-    setContent(content + emojiData.emoji)
-  }
 
   const handleSubmit = () => {
     if (!content.trim() && images.length === 0) return
@@ -388,9 +384,6 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                     <span className="hidden sm:inline">Emoji</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[280px] sm:w-full p-0 border-none shadow-xl" align="start">
-                  <EmojiPicker onEmojiClick={handleEmojiClick} />
-                </PopoverContent>
               </Popover>
             </div>
 
