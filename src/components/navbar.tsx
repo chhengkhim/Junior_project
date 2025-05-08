@@ -1,71 +1,81 @@
-"use client"
+"use client";
 
-import { BellRing, ChevronDown, Menu, X, BookOpen } from "lucide-react"
-import { useTheme } from "next-themes"
-import { useState, useEffect } from "react"
-import logolight from "@/assets/logo8.png"
-import logodark from "@/assets/logo9.png"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Sidebar } from "@/components/sidebar"
+import { BellRing, ChevronDown, Menu, X, BookOpen } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
+import logolight from "@/assets/logo8.png";
+import logodark from "@/assets/logo9.png";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Sidebar } from "@/components/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { TypingAnimation } from "./magicui/typing-animation"
+} from "@/components/ui/dropdown-menu";
+import { TypingAnimation } from "./magicui/typing-animation";
 //import { Switch } from "@/components/ui/switch"
-import Image from "next/image"
+import Image from "next/image";
+import Link from "next/link";
 
 export function Navbar() {
-  const { theme, systemTheme } = useTheme() //, setTheme
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const { theme, systemTheme } = useTheme(); //, setTheme
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    checkIfMobile()
-    window.addEventListener("resize", checkIfMobile)
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
 
     return () => {
-      window.removeEventListener("resize", checkIfMobile)
-    }
-  }, [])
+      window.removeEventListener("resize", checkIfMobile);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isMobile) {
-      setIsSidebarOpen(false)
+      setIsSidebarOpen(false);
     }
-  }, [isMobile])
+  }, [isMobile]);
 
   // Remove scroll when sidebar is open on mobile
   useEffect(() => {
     if (isSidebarOpen && isMobile) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "auto";
     }
-  }, [isSidebarOpen, isMobile])
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
+  }, [isSidebarOpen, isMobile]);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  const currentTheme = theme === "system" ? systemTheme : theme
+  const currentTheme = theme === "system" ? systemTheme : theme;
 
-  if (!mounted) return null // Prevents mismatch during SSR
+  if (!mounted) return null; // Prevents mismatch during SSR
 
-  const logoSrc = currentTheme === "dark" ? logodark : logolight
+  const logoSrc = currentTheme === "dark" ? logodark : logolight;
   return (
     <>
       <header className="sticky top-4 z-50 flex h-16 items-center border-b md:ml-[16.5rem] mx-4 bg-white px-4 shadow-md shadow-[#212121]/20 rounded-2xl">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-              {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            >
+              {isSidebarOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
 
             <div className="flex items-center gap-2">
@@ -89,27 +99,47 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="bg-white text-[#1D1D1D] rounded-full relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-white text-[#1D1D1D] rounded-full relative"
+            >
               <BellRing className="h-5 w-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </Button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant={"ghost"} className="flex items-center gap-2 px-2">
+                <Button
+                  variant={"ghost"}
+                  className="flex items-center gap-2 px-2"
+                >
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium hidden sm:inline-block">Pisethsambo Phok</span>
+                    <span className="text-sm font-medium hidden sm:inline-block">
+                      Pisethsambo Phok
+                    </span>
                     <Avatar className="h-8 w-8 border-2 border-indigo-100">
-                      <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
+                      <AvatarImage
+                        src="/placeholder.svg?height=32&width=32"
+                        alt="User"
+                      />
                       <AvatarFallback>PS</AvatarFallback>
                     </Avatar>
                   </div>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-[#FFF] text-[#1D1D1D] border-white">
-                <DropdownMenuItem className="focus:bg-[#1d2b7d] focus:text-white">
-                  <span>Profile</span>
+              <DropdownMenuContent
+                align="end"
+                className="w-56 bg-[#FFF] text-[#1D1D1D] border-white"
+              >
+                <DropdownMenuItem
+                  asChild
+                  className="focus:bg-[#1d2b7d] focus:text-white"
+                >
+                  <Link href="/profile">
+                    <span>Profile</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-gray-800" />
                 <DropdownMenuItem className="flex items-center justify-between focus:bg-[#1d2b7d] focus:text-white">
@@ -143,15 +173,21 @@ export function Navbar() {
 
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setIsSidebarOpen(false)} />
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
       )}
 
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed left-0 top-0 bottom-0 z-50 w-64 md:hidden overflow-hidden">
-          <Sidebar onItemClick={() => setIsSidebarOpen(false)} logoSrc={logoSrc.src} />
+          <Sidebar
+            onItemClick={() => setIsSidebarOpen(false)}
+            logoSrc={logoSrc.src}
+          />
         </div>
       )}
     </>
-  )
+  );
 }

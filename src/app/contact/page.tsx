@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Mail, MapPin, Phone } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -20,29 +20,43 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
     console.log("Form submitted:", formData)
-    // Reset form
     setFormData({ name: "", email: "", subject: "", message: "" })
-    // Show success message
     alert("Your message has been sent. We'll get back to you soon!")
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-b rounded-2xl from-[#0d3895] to-[#ffff] py-16">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-16">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Get In Touch</h1>
           <p className="text-white max-w-3xl mx-auto text-lg">
             Have questions about our community guidelines? Need clarification on a specific rule? Our support team is
             here to help you understand and navigate our educational community standards.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <motion.div
+          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
           <div className="flex flex-col md:flex-row">
             {/* Contact Information */}
-            <div className="bg-[#1d2b7d] text-white p-8 md:p-12 md:w-2/5 relative overflow-hidden">
+            <motion.div
+              className="bg-[#1d2b7d] text-white p-8 md:p-12 md:w-2/5 relative overflow-hidden"
+              initial={{ x: -80, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <div className="relative z-10">
                 <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
                 <p className="mb-8 opacity-90">
@@ -71,13 +85,18 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Decorative Circle */}
               <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#162058] rounded-full -mr-32 -mb-32 opacity-50"></div>
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#162058] rounded-full -mr-16 -mt-16 opacity-30"></div>
-            </div>
+            </motion.div>
 
             {/* Contact Form */}
-            <div className="p-8 md:p-12 md:w-3/5">
+            <motion.div
+              className="p-8 md:p-12 md:w-3/5"
+              initial={{ x: 80, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -152,17 +171,19 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <button
+                  <motion.button
                     type="submit"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     className="bg-[#1d2b7d] hover:bg-white hover:text-[#1d2b7d] border text-white font-medium py-3 px-8 rounded-md transition-colors duration-300"
                   >
                     Send Message
-                  </button>
+                  </motion.button>
                 </div>
               </form>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

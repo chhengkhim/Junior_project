@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import logo8 from "@/assets/logo8.png"
 import user from "@/assets/user.jpg"
 import {
@@ -29,6 +29,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import CreatePost from "./create-post"
+import { useEffect as reactUseEffect } from "react";
 
 // Sample data for posts with more content variety
 const initialPosts: {
@@ -74,7 +75,7 @@ const initialPosts: {
     content:
       "Just had an amazing breakfast meeting with @annaferguson and @davebishop! We discussed some exciting new ideas for our upcoming project. The coffee was fantastic too! 😊",
     hashtags: ["networking", "breakfast", "collaboration", "newproject"],
-    image: user.src,
+    image: logo8.src,
     likes: 145,
     comments: 36,
     shares: 12,
@@ -922,3 +923,7 @@ export default function SocialFeed() {
     </div>
   )
 }
+function useEffect(callback: () => () => void, dependencies: number[]) {
+  reactUseEffect(callback, dependencies);
+}
+

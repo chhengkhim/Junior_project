@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useRef } from "react"
-import { ImageIcon, Link2, MapPin, Hash, Smile, X, Send } from "lucide-react"
+import { ImageIcon, Link2, Hash, Smile, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -364,16 +364,6 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
               >
                 <Link2 size={16} className="sm:mr-1" />
                 <span className="hidden sm:inline">Link</span>
-              </Button>
-
-              <Button
-                variant="ghost"
-                size="sm"
-                className="p-1 sm:p-2 h-8 text-gray-600 hover:text-blue-500 hover:bg-blue-50"
-                onClick={() => setShowLocationInput(!showLocationInput)}
-              >
-                <MapPin size={16} className="sm:mr-1" />
-                <span className="hidden sm:inline">Location</span>
               </Button>
 
               <Button

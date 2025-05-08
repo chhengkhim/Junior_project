@@ -2,7 +2,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { EyeOff, ScanSearch, Users, Bookmark, ChevronDown, Settings, User, Scale, MessagesSquareIcon, X } from 'lucide-react'
+import { EyeOff, ScanSearch, Users, Bookmark, ChevronDown, Settings, Scale, MessagesSquareIcon, X } from 'lucide-react' //User icon remove 
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -548,7 +548,7 @@ export function Sidebar({ onItemClick, logoSrc, isMobile = false, isOpen = true,
               </Link>
             </motion.div>
 
-            {/* Profile */}
+            {/* Profile 
             <motion.div 
               variants={menuItemVariants}
               className="mb-1 mx-2"
@@ -574,6 +574,7 @@ export function Sidebar({ onItemClick, logoSrc, isMobile = false, isOpen = true,
                 <span className="font-medium">Profile</span>
               </Link>
             </motion.div>
+            */}
           </nav>
         </motion.div>
       )}

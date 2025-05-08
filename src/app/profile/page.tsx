@@ -1,21 +1,30 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import Image from "next/image"
-import user from "@/assets/user.jpg"
-import { Bell, BookOpen, Edit, Lock, LogOut, MessageSquare, Settings, Shield, User } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react";
+import Image from "next/image";
+import user from "@/assets/user.jpg";
+import {
+  Bell,
+  BookOpen,
+  Edit,
+  Lock,
+  LogOut,
+  MessageSquare,
+  Shield,
+  User,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ProfilePage() {
-  const router = useRouter()
-  const [activeTab, setActiveTab] = useState("profile")
-  const [isEditing, setIsEditing] = useState(false)
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("profile");
+  const [isEditing, setIsEditing] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // Form states
   const [userData, setUserData] = useState({
@@ -24,98 +33,109 @@ export default function ProfilePage() {
     bio: "Educational psychology student with a passion for community building and peer learning. I believe in creating supportive learning environments where everyone can thrive.",
     avatar: "/placeholder.svg?height=200&width=200",
     joinDate: "September 2023",
-  })
+  });
 
   const [preferences, setPreferences] = useState({
     showProfile: true,
     allowMessages: true,
     emailNotifications: false,
-  })
+  });
 
   const [notificationSettings, setNotificationSettings] = useState({
     emailNotifications: true,
     pushNotifications: true,
     commentNotifications: true,
-  })
+  });
 
   const [securityData, setSecurityData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
     twoFactorEnabled: false,
-  })
-
-  const [settingsData, setSettingsData] = useState({
-    language: "English",
-    largerText: false,
-    reduceMotion: false,
-  })
+  });
 
   // Handle form changes
-  const handleUserDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setUserData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleToggleChange = (setting: string, stateUpdater: React.Dispatch<React.SetStateAction<any>>) => {
-    stateUpdater((prev: Record<string, boolean>) => ({ ...prev, [setting]: !prev[setting] }))
-  }
+  const handleUserDataChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({ ...prev, [name]: value }));
+  };
+  
 
   const handleSecurityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setSecurityData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setSecurityData((prev) => ({ ...prev, [name]: value }));
+  };
 
   // Form submission handlers
   const handleProfileSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Simulate saving profile data
     setTimeout(() => {
-      setShowSuccessMessage(true)
-      setTimeout(() => setShowSuccessMessage(false), 3000)
-      setIsEditing(false)
-    }, 500)
-  }
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 3000);
+      setIsEditing(false);
+    }, 500);
+  };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Validate passwords
     if (securityData.newPassword !== securityData.confirmPassword) {
-      alert("Passwords don't match!")
-      return
+      alert("Passwords don't match!");
+      return;
     }
     if (securityData.newPassword.length < 8) {
-      alert("Password must be at least 8 characters!")
-      return
+      alert("Password must be at least 8 characters!");
+      return;
     }
 
     // Simulate password update
-    alert("Password updated successfully!")
+    alert("Password updated successfully!");
     setSecurityData({
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
       twoFactorEnabled: securityData.twoFactorEnabled,
-    })
-  }
+    });
+  };
 
   const handleLogout = () => {
     // Simulate logout
-    alert("You have been logged out.")
-    router.push("/")
-  }
+    alert("You have been logged out.");
+    router.push("/");
+  };
 
   const tabs = [
     { id: "profile", label: "Profile", icon: <User className="w-5 h-5" /> },
-    { id: "activity", label: "Activity", icon: <BookOpen className="w-5 h-5" /> },
-    { id: "notifications", label: "Notifications", icon: <Bell className="w-5 h-5" /> },
+    {
+      id: "activity",
+      label: "Activity",
+      icon: <BookOpen className="w-5 h-5" />,
+    },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: <Bell className="w-5 h-5" />,
+    },
     { id: "security", label: "Security", icon: <Lock className="w-5 h-5" /> },
-    { id: "settings", label: "Settings", icon: <Settings className="w-5 h-5" /> },
-  ]
+  ];
 
   const renderTabContent = () => {
     switch (activeTab) {
       case "profile":
+        function handleToggleChange<T>(
+                  key: keyof T,
+                  setPreferences: React.Dispatch<React.SetStateAction<T>>
+                ): void {
+                  setPreferences((prev) => ({
+                    ...prev,
+                    [key]: !prev[key],
+                  }));
+                }
         return (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -132,7 +152,10 @@ export default function ProfilePage() {
                 role="alert"
               >
                 <strong className="font-bold">Success!</strong>
-                <span className="block sm:inline"> Your profile has been updated.</span>
+                <span className="block sm:inline">
+                  {" "}
+                  Your profile has been updated.
+                </span>
               </motion.div>
             )}
 
@@ -143,7 +166,9 @@ export default function ProfilePage() {
             >
               <form onSubmit={handleProfileSubmit}>
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-semibold text-gray-800">Personal Information</h3>
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    Personal Information
+                  </h3>
                   <motion.button
                     type="button"
                     onClick={() => setIsEditing(!isEditing)}
@@ -159,38 +184,44 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Full Name</label>
+                      <label className="block text-sm font-medium text-gray-500 mb-1">
+                        Full Name
+                      </label>
                       <Input
                         type="text"
                         name="name"
                         value={userData.name}
                         onChange={handleUserDataChange}
                         disabled={!isEditing}
-                        className="w-full px-4 py-2 border rounded-lg focus:border-[#1d2b7d] focus:outline-none disabled:bg-gray-50 disabled:text-gray-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:border-[#1d2b7d] focus:outline-none text-black disabled:bg-gray-50 disabled:text-gray-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Email Address</label>
+                      <label className="block text-sm font-medium text-gray-500 mb-1">
+                        Email Address
+                      </label>
                       <Input
                         type="email"
                         name="email"
                         value={userData.email}
                         onChange={handleUserDataChange}
                         disabled={!isEditing}
-                        className="w-full px-4 py-2 border rounded-lg focus:border-[#1d2b7d] focus:outline-none disabled:bg-gray-50 disabled:text-gray-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:border-[#1d2b7d] focus:outline-none text-black disabled:bg-gray-50 disabled:text-gray-500"
                       />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-500 mb-1">Bio</label>
+                      <label className="block text-sm font-medium text-gray-800 mb-1">
+                        Bio
+                      </label>
                       <Textarea
                         name="bio"
                         rows={5}
                         value={userData.bio}
                         onChange={handleUserDataChange}
                         disabled={!isEditing}
-                        className="w-full px-4 py-2 border rounded-lg focus:border-[#1d2b7d] focus:outline-none disabled:bg-gray-50 disabled:text-gray-500"
+                        className="w-full px-4 py-2 border rounded-lg focus:border-[#1d2b7d] focus:outline-none text-black disabled:bg-gray-50 disabled:text-gray-500"
                       ></Textarea>
                     </div>
                   </div>
@@ -223,7 +254,9 @@ export default function ProfilePage() {
               transition={{ delay: 0.2, duration: 0.5 }}
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Community Preferences</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Community Preferences
+              </h3>
               <div className="space-y-4">
                 <motion.div
                   className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
@@ -238,7 +271,9 @@ export default function ProfilePage() {
                       type="checkbox"
                       className="sr-only peer"
                       checked={preferences.showProfile}
-                      onChange={() => handleToggleChange("showProfile", setPreferences)}
+                      onChange={() =>
+                        handleToggleChange("showProfile", setPreferences)
+                      }
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                   </label>
@@ -256,7 +291,9 @@ export default function ProfilePage() {
                       type="checkbox"
                       className="sr-only peer"
                       checked={preferences.allowMessages}
-                      onChange={() => handleToggleChange("allowMessages", setPreferences)}
+                      onChange={() =>
+                        handleToggleChange("allowMessages", setPreferences)
+                      }
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                   </label>
@@ -274,7 +311,9 @@ export default function ProfilePage() {
                       type="checkbox"
                       className="sr-only peer"
                       checked={preferences.emailNotifications}
-                      onChange={() => handleToggleChange("emailNotifications", setPreferences)}
+                      onChange={() =>
+                        handleToggleChange("emailNotifications", setPreferences)
+                      }
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                   </label>
@@ -282,7 +321,7 @@ export default function ProfilePage() {
               </div>
             </motion.div>
           </motion.div>
-        )
+        );
       case "activity":
         return (
           <motion.div
@@ -295,7 +334,9 @@ export default function ProfilePage() {
               className="bg-white rounded-xl shadow-md p-6"
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Activity Center</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Activity Center
+              </h3>
               <div className="p-8 text-center">
                 <motion.div
                   className="inline-flex items-center justify-center w-16 h-16 bg-[#1d2b7d]/10 rounded-full mb-4"
@@ -324,8 +365,9 @@ export default function ProfilePage() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
-                  We are working on a comprehensive activity tracking system to help you monitor your engagement with our
-                  educational community.
+                  We are working on a comprehensive activity tracking system to
+                  help you monitor your engagement with our educational
+                  community.
                 </motion.p>
               </div>
             </motion.div>
@@ -337,7 +379,9 @@ export default function ProfilePage() {
               transition={{ delay: 0.2, duration: 0.5 }}
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Future Features</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Future Features
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <motion.div
                   className="border border-dashed border-gray-300 rounded-lg p-4 text-center"
@@ -347,8 +391,12 @@ export default function ProfilePage() {
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1d2b7d]/10 rounded-full mb-3">
                     <MessageSquare className="w-6 h-6 text-[#1d2b7d]" />
                   </div>
-                  <h4 className="font-medium text-gray-800 mb-1">Post & Comment History</h4>
-                  <p className="text-sm text-gray-500">Track all your contributions</p>
+                  <h4 className="font-medium text-gray-800 mb-1">
+                    Post & Comment History
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Track all your contributions
+                  </p>
                 </motion.div>
                 <motion.div
                   className="border border-dashed border-gray-300 rounded-lg p-4 text-center"
@@ -358,13 +406,17 @@ export default function ProfilePage() {
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1d2b7d]/10 rounded-full mb-3">
                     <Shield className="w-6 h-6 text-[#1d2b7d]" />
                   </div>
-                  <h4 className="font-medium text-gray-800 mb-1">Achievement Badges</h4>
-                  <p className="text-sm text-gray-500">Earn badges for your participation</p>
+                  <h4 className="font-medium text-gray-800 mb-1">
+                    Achievement Badges
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Earn badges for your participation
+                  </p>
                 </motion.div>
               </div>
             </motion.div>
           </motion.div>
-        )
+        );
       case "notifications":
         return (
           <motion.div
@@ -377,22 +429,33 @@ export default function ProfilePage() {
               className="bg-white rounded-xl shadow-md p-6"
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Notification Settings</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Notification Settings
+              </h3>
               <div className="space-y-4">
                 <motion.div
                   className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.03)" }}
                 >
                   <div>
-                    <p className="font-medium text-gray-800">Email Notifications</p>
-                    <p className="text-sm text-gray-500">Receive email notifications for important updates</p>
+                    <p className="font-medium text-gray-800">
+                      Email Notifications
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Receive email notifications for important updates
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <Input
                       type="checkbox"
                       className="sr-only peer"
                       checked={notificationSettings.emailNotifications}
-                      onChange={() => handleToggleChange("emailNotifications", setNotificationSettings)}
+                      onChange={() =>
+                        handleToggleChange(
+                          "emailNotifications",
+                          setNotificationSettings
+                        )
+                      }
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                   </label>
@@ -402,15 +465,24 @@ export default function ProfilePage() {
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.03)" }}
                 >
                   <div>
-                    <p className="font-medium text-gray-800">Push Notifications</p>
-                    <p className="text-sm text-gray-500">Receive push notifications on your device</p>
+                    <p className="font-medium text-gray-800">
+                      Push Notifications
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Receive push notifications on your device
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <Input
                       type="checkbox"
                       className="sr-only peer"
                       checked={notificationSettings.pushNotifications}
-                      onChange={() => handleToggleChange("pushNotifications", setNotificationSettings)}
+                      onChange={() =>
+                        handleToggleChange(
+                          "pushNotifications",
+                          setNotificationSettings
+                        )
+                      }
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                   </label>
@@ -420,15 +492,24 @@ export default function ProfilePage() {
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.03)" }}
                 >
                   <div>
-                    <p className="font-medium text-gray-800">Comment Notifications</p>
-                    <p className="text-sm text-gray-500">Get notified when someone comments on your posts</p>
+                    <p className="font-medium text-gray-800">
+                      Comment Notifications
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Get notified when someone comments on your posts
+                    </p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <Input
                       type="checkbox"
                       className="sr-only peer"
                       checked={notificationSettings.commentNotifications}
-                      onChange={() => handleToggleChange("commentNotifications", setNotificationSettings)}
+                      onChange={() =>
+                        handleToggleChange(
+                          "commentNotifications",
+                          setNotificationSettings
+                        )
+                      }
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                   </label>
@@ -443,7 +524,9 @@ export default function ProfilePage() {
               transition={{ delay: 0.2, duration: 0.5 }}
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Recent Notifications</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Recent Notifications
+              </h3>
               <div className="space-y-4">
                 <motion.div
                   className="flex items-start p-3 hover:bg-gray-50 rounded-lg transition-colors"
@@ -456,9 +539,12 @@ export default function ProfilePage() {
                     <Bell className="w-5 h-5 text-[#1d2b7d]" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-800">Community Guidelines Updated</p>
+                    <p className="font-medium text-gray-800">
+                      Community Guidelines Updated
+                    </p>
                     <p className="text-sm text-gray-500">
-                      Please review the latest changes to our community guidelines.
+                      Please review the latest changes to our community
+                      guidelines.
                     </p>
                     <p className="text-xs text-gray-400 mt-1">1 day ago</p>
                   </div>
@@ -474,15 +560,19 @@ export default function ProfilePage() {
                     <Bell className="w-5 h-5 text-[#1d2b7d]" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-800">Welcome to the Community</p>
-                    <p className="text-sm text-gray-500">Thank you for joining our educational community platform.</p>
+                    <p className="font-medium text-gray-800">
+                      Welcome to the Community
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Thank you for joining our educational community platform.
+                    </p>
                     <p className="text-xs text-gray-400 mt-1">3 days ago</p>
                   </div>
                 </motion.div>
               </div>
             </motion.div>
           </motion.div>
-        )
+        );
       case "security":
         return (
           <motion.div
@@ -495,10 +585,14 @@ export default function ProfilePage() {
               className="bg-white rounded-xl shadow-md p-6"
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Password</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Password
+              </h3>
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Current Password</label>
+                  <label className="block text-sm font-medium text-gray-500 mb-1">
+                    Current Password
+                  </label>
                   <Input
                     type="password"
                     name="currentPassword"
@@ -510,7 +604,9 @@ export default function ProfilePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">New Password</label>
+                  <label className="block text-sm font-medium text-gray-500 mb-1">
+                    New Password
+                  </label>
                   <Input
                     type="password"
                     name="newPassword"
@@ -521,10 +617,14 @@ export default function ProfilePage() {
                     required
                     minLength={8}
                   />
-                  <p className="text-xs text-gray-500 mt-1">Password must be at least 8 characters long</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Password must be at least 8 characters long
+                  </p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Confirm New Password</label>
+                  <label className="block text-sm font-medium text-gray-500 mb-1">
+                    Confirm New Password
+                  </label>
                   <Input
                     type="password"
                     name="confirmPassword"
@@ -560,9 +660,12 @@ export default function ProfilePage() {
               transition={{ delay: 0.2, duration: 0.5 }}
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Two-Factor Authentication</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Two-Factor Authentication
+              </h3>
               <p className="text-gray-600 mb-4">
-                Add an extra layer of security to your account by enabling two-factor authentication.
+                Add an extra layer of security to your account by enabling
+                two-factor authentication.
               </p>
               <div className="flex items-center justify-between">
                 <span className="font-medium">Enable 2FA</span>
@@ -571,7 +674,12 @@ export default function ProfilePage() {
                     type="checkbox"
                     className="sr-only peer"
                     checked={securityData.twoFactorEnabled}
-                    onChange={() => handleToggleChange("twoFactorEnabled", setSecurityData)}
+                    onChange={() =>
+                      setSecurityData((prev) => ({
+                        ...prev,
+                        twoFactorEnabled: !prev.twoFactorEnabled,
+                      }))
+                    }
                   />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
                 </label>
@@ -585,8 +693,8 @@ export default function ProfilePage() {
                     className="mt-4 p-4 bg-gray-50 rounded-lg"
                   >
                     <p className="text-sm text-gray-600">
-                      Two-factor authentication is enabled. You will receive a verification code via email when signing
-                      in.
+                      Two-factor authentication is enabled. You will receive a
+                      verification code via email when signing in.
                     </p>
                   </motion.div>
                 )}
@@ -600,10 +708,14 @@ export default function ProfilePage() {
               transition={{ delay: 0.3, duration: 0.5 }}
               whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Account Actions</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Account Actions
+              </h3>
               <div className="space-y-4">
                 <motion.button
-                  onClick={() => alert("You've been logged out from all devices.")}
+                  onClick={() =>
+                    alert("You've been logged out from all devices.")
+                  }
                   className="w-full flex items-center justify-between p-3 text-left hover:bg-gray-50 rounded-lg transition-colors border"
                   whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.03)", x: 5 }}
                   whileTap={{ scale: 0.98 }}
@@ -616,13 +728,20 @@ export default function ProfilePage() {
                 </motion.button>
                 <motion.button
                   onClick={() => {
-                    if (confirm("Are you sure you want to deactivate your account? This action cannot be undone.")) {
-                      alert("Your account has been deactivated.")
-                      router.push("/")
+                    if (
+                      confirm(
+                        "Are you sure you want to deactivate your account? This action cannot be undone."
+                      )
+                    ) {
+                      alert("Your account has been deactivated.");
+                      router.push("/");
                     }
                   }}
                   className="w-full flex items-center justify-between p-3 text-left hover:bg-red-50 rounded-lg transition-colors border border-red-100"
-                  whileHover={{ backgroundColor: "rgba(254, 226, 226, 0.5)", x: 5 }}
+                  whileHover={{
+                    backgroundColor: "rgba(254, 226, 226, 0.5)",
+                    x: 5,
+                  }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <div className="flex items-center">
@@ -634,80 +753,10 @@ export default function ProfilePage() {
               </div>
             </motion.div>
           </motion.div>
-        )
-      case "settings":
-        return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-8"
-          >
-            <motion.div
-              className="bg-white rounded-xl shadow-md p-6"
-              whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
-            >
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Accessibility</h3>
-              <div className="space-y-4">
-                <motion.div
-                  className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
-                  whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.03)" }}
-                >
-                  <div>
-                    <p className="font-medium text-gray-800">Larger Text</p>
-                    <p className="text-sm text-gray-500">Increase text size for better readability</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <Input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={settingsData.largerText}
-                      onChange={() => handleToggleChange("largerText", setSettingsData)}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
-                  </label>
-                </motion.div>
-                <motion.div
-                  className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors"
-                  whileHover={{ backgroundColor: "rgba(0, 0, 0, 0.03)" }}
-                >
-                  <div>
-                    <p className="font-medium text-gray-800">Reduce Motion</p>
-                    <p className="text-sm text-gray-500">Minimize animations throughout the interface</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <Input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={settingsData.reduceMotion}
-                      onChange={() => handleToggleChange("reduceMotion", setSettingsData)}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1d2b7d]"></div>
-                  </label>
-                </motion.div>
-              </div>
-              <motion.div
-                className="mt-6"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <motion.button
-                  onClick={() => alert("Preferences saved successfully!")}
-                  className="bg-[#1d2b7d] hover:bg-[#162058] text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Save Preferences
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        )
-      default:
-        return null
+        );
+        return null;
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -739,7 +788,11 @@ export default function ProfilePage() {
                   />
                 </div>
                 <motion.button
-                  onClick={() => alert("Profile picture upload will be available in a future update.")}
+                  onClick={() =>
+                    alert(
+                      "Profile picture upload will be available in a future update."
+                    )
+                  }
                   className="absolute bottom-0 right-0 bg-[#1d2b7d] text-white p-1 rounded-full"
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
@@ -754,7 +807,9 @@ export default function ProfilePage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <h1 className="text-2xl font-bold text-gray-800">{userData.name}</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">
+                      {userData.name}
+                    </h1>
                     <p className="text-gray-500">Joined {userData.joinDate}</p>
                   </motion.div>
                   <motion.div
@@ -783,7 +838,7 @@ export default function ProfilePage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <p className="text-gray-700">{userData.bio}</p>
+              <p className="text-black">{userData.bio}</p>
             </motion.div>
           </div>
         </motion.div>
@@ -801,7 +856,7 @@ export default function ProfilePage() {
               {tabs.map((tab, index) => (
                 <motion.button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => tab.id && setActiveTab(tab.id)}
                   className={`w-full flex items-center gap-3 p-4 text-left border-l-4 transition-all ${
                     activeTab === tab.id
                       ? "border-[#1d2b7d] bg-[#1d2b7d]/5 text-[#1d2b7d]"
@@ -852,5 +907,5 @@ export default function ProfilePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
