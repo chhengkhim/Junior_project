@@ -1,10 +1,8 @@
 "use client";
 
 import { BellRing, ChevronDown, Menu, X, BookOpen } from "lucide-react";
-import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import logolight from "@/assets/logo8.png";
-import logodark from "@/assets/logo9.png";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sidebar } from "@/components/sidebar";
@@ -16,12 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TypingAnimation } from "./magicui/typing-animation";
-//import { Switch } from "@/components/ui/switch"
 import Image from "next/image";
 import Link from "next/link";
 
 export function Navbar() {
-  const { theme, systemTheme } = useTheme(); //, setTheme
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -52,14 +48,9 @@ export function Navbar() {
       document.body.style.overflow = "auto";
     }
   }, [isSidebarOpen, isMobile]);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  const logoSrc = logolight;
 
-  if (!mounted) return null; // Prevents mismatch during SSR
-
-  const logoSrc = currentTheme === "dark" ? logodark : logolight;
   return (
     <>
       <header className="sticky top-4 z-50 flex h-16 items-center border-b md:ml-[16.5rem] mx-4 bg-white px-4 shadow-md shadow-[#212121]/20 rounded-2xl">
@@ -146,16 +137,6 @@ export function Navbar() {
                   <span>Lang: English</span>
                   <ChevronDown className="h-4 w-4" />
                 </DropdownMenuItem>
-                {/* Darkmode
-                <DropdownMenuItem className="flex items-center justify-between focus:bg-[#1d2b7d] focus:text-white">
-                  <span>Dark Mode</span>
-                  <Switch
-                    checked={theme === "dark"}
-                    onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="data-[state=checked]:bg-blue-500"
-                  />
-                </DropdownMenuItem>
-                */}
                 <DropdownMenuSeparator className="bg-white" />
                 <DropdownMenuItem className="focus:bg-[#1d2b7d] focus:text-white">
                   <span>Logout</span>

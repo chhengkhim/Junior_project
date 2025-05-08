@@ -2,7 +2,7 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
+//import { ThemeProvider } from "next-themes";
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
 
@@ -35,7 +35,10 @@ export default function RootLayout({
           dark:bg-[#FFFF] dark:text-white 
         `}
       >
+         {/* remove theme proqvider for now 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        </ThemeProvider>
+        */}
           <div className="flex flex-col h-screen">
             {/* Fixed Navbar */}
             <div className="flex-shrink-0">
@@ -57,7 +60,6 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-        </ThemeProvider>
       </body>
     </html>
   );
