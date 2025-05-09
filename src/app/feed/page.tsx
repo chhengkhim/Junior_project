@@ -1,7 +1,7 @@
 "use client"
 
-import Image from "next/image"
-import profile from "@/assets/user.jpg"
+//import Image from "next/image"
+//import profile from "@/assets/user.jpg"
 import { motion } from "framer-motion"
 import SocialFeed from "./social-feed"
 
@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#f5f7fa] w-auto">
       <div className="max-w-7xl mx-auto py-4 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid gap-4">
           {/* Left Column - Social Feed (spans 2 columns on larger screens) */}
           <div className="md:col-span-2">
             <motion.div
@@ -25,7 +25,7 @@ export default function Home() {
 
           {/* Right Column - Map and Trending */}
           <div className="space-y-4 sticky top-4 h-fit">
-            {/* Map Section */}
+            {/* Map Section
             <motion.div
               className="bg-white rounded-2xl shadow p-5"
               initial={{ opacity: 0, y: 20 }}
@@ -47,8 +47,9 @@ export default function Home() {
                 ></iframe>
               </div>
             </motion.div>
+            */}
 
-            {/* Trending Section */}
+            {/* Trending Section
             <motion.div
               className="bg-white rounded-2xl shadow p-5"
               initial={{ opacity: 0, y: 20 }}
@@ -128,6 +129,7 @@ export default function Home() {
                 </div>
               </div>
             </motion.div>
+            */}
           </div>
         </div>
       </div>

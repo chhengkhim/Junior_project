@@ -15,18 +15,18 @@ export default function LoadingScreen() {
           clearInterval(interval);
           return 100;
         }
-        return prev + 5;
+        return prev + 2; // Slower progress increment
       });
-    }, 75);
+    }, 150); // Slower interval duration
 
     const progressTimer = setTimeout(() => {
       if (progress >= 100) {
         setFadeOut(true);
         setTimeout(() => {
           setLoading(false);
-        }, 500);
+        }, 1000); // Slightly longer fade-out duration
       }
-    }, 1000);
+    }, 3000); // Longer total loading duration
 
     return () => {
       clearInterval(interval);
@@ -38,7 +38,7 @@ export default function LoadingScreen() {
 
   return (
     <div
-      className={`fixed inset-0 flex flex-col items-center justify-center z-[9999] transition-opacity duration-500 ease-in-out ${
+      className={`fixed inset-0 flex flex-col items-center justify-center z-[9999] transition-opacity duration-1000 ease-in-out ${
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
@@ -58,7 +58,7 @@ export default function LoadingScreen() {
                 top: `${20 * i + 10}%`,
                 left: 0,
                 right: 0,
-                animation: `scanLine 3s linear infinite ${i * 0.5}s`,
+                animation: `scanLine 5s linear infinite ${i * 1}s`, // Slower animation
               }}
             />
           ))}
@@ -68,25 +68,23 @@ export default function LoadingScreen() {
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center max-w-sm w-full">
         {/* Logo with tech-inspired animation */}
-        <div className="relative mb-12">
-          <div className="w-40 h-40 relative mb-4 mx-auto">
-            {" "}
-            {/* Increased size */}
+        <div className="relative mb-12 brightness-125">
+          <div className="w-40 h-40 animate-pulse brightness-125 relative mb-4 mx-auto">
             <div
               className="absolute inset-0 border-4 border-white opacity-20 rounded-full animate-spin"
-              style={{ animationDuration: "8s" }}
+              style={{ animationDuration: "12s" }} // Slower spin
             />
             <div
               className="absolute inset-2 border-2 border-dashed border-white opacity-10 rounded-full animate-spin"
               style={{
-                animationDuration: "12s",
+                animationDuration: "16s", // Slower reverse spin
                 animationDirection: "reverse",
               }}
             />
             <div className="absolute inset-4 flex items-center justify-center">
               <Image
-                width={150} // Increased width
-                height={150} // Increased height
+                width={150}
+                height={150}
                 alt="logo"
                 src={logo}
                 className="object-contain"
@@ -100,7 +98,7 @@ export default function LoadingScreen() {
         <div className="w-full px-8">
           <div className="flex justify-between mb-2">
             <span className="text-xs font-mono text-white opacity-70">
-              SYSTEM LOADING
+              LOADING
             </span>
             <span className="text-xs font-mono text-white opacity-70">
               {progress}%
@@ -108,15 +106,15 @@ export default function LoadingScreen() {
           </div>
 
           {/* Segmented progress bar for tech look */}
-          <div className="w-full h-3 bg-[#101745] rounded overflow-hidden flex">
+          <div className="w-full h-3 bg-[#ffff]/20 rounded overflow-hidden flex">
             {[...Array(20)].map((_, i) => (
               <div
                 key={`segment-${i}`}
-                className="h-full transition-colors duration-300 ease-out border-r border-[#101745]"
+                className="h-full transition-colors duration-500 ease-out border-r border-[#ffff]/20" // Slower transition
                 style={{
                   width: "5%",
                   backgroundColor:
-                    progress >= (i + 1) * 5 ? "#4affda" : "transparent",
+                    progress >= (i + 1) * 5 ? "#ffff" : "transparent",
                   boxShadow:
                     progress >= (i + 1) * 5
                       ? "0 0 10px rgba(74, 255, 218, 0.5)"
@@ -171,11 +169,11 @@ export default function LoadingScreen() {
           display: inline-block;
           overflow: hidden;
           white-space: nowrap;
-          animation: typewriter 3s steps(30) infinite alternate;
+          animation: typewriter 5s steps(30) infinite alternate; // Slower typewriter effect
         }
 
         .animate-blink {
-          animation: blink 0.7s infinite;
+          animation: blink 1s infinite; // Slower blink
         }
       `}</style>
     </div>
