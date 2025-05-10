@@ -36,8 +36,8 @@ export default function ResourceStats() {
     },
     {
       icon: CheckCircle,
-      color: "bg-rose-100",
-      iconColor: "text-rose-500",
+      color: "bg-green-300",
+      iconColor: "text-green-700",
       value: "5+",
       label: "Peer Support Groups",
       delay: 0.1,

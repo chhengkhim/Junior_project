@@ -400,7 +400,7 @@ export default function SocialFeed() {
             id: Date.now(),
             author: "Current User",
             username: "@currentuser",
-            avatar: "/placeholder.svg?height=32&width=32",
+            avatar: user.src,
             content: commentInputs[postId],
             timeAgo: "Just now",
             likes: 0,
@@ -834,8 +834,7 @@ export default function SocialFeed() {
                       {/* Add comment */}
                       <div className="flex space-x-3">
                         <Avatar className="w-10 h-10 border border-gray-200">
-                          <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Your profile" />
-                          <AvatarFallback>CU</AvatarFallback>
+                          <AvatarImage src={user.src} alt="You profile" />
                         </Avatar>
                         <div className="flex-1 flex">
                           <Input

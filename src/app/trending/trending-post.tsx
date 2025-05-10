@@ -9,6 +9,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import logo8 from "@/assets/logo8.png"
+import user from "@/assets/user.jpg"
 
 export default function TrendingPost() {
   const [liked, setLiked] = useState(false)
@@ -134,8 +135,7 @@ export default function TrendingPost() {
           {/* Quick Comment */}
           <div className="flex items-center gap-3 mt-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Your avatar" />
-              <AvatarFallback>YA</AvatarFallback>
+              <AvatarImage src={user.src} alt="Your avatar" />
             </Avatar>
             <div className="flex-1 relative">
               <input

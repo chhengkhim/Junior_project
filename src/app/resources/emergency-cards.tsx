@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Phone, AlertTriangle, Heart } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import user from "@/assets/user.jpg"
 
 export default function EmergencyCards() {
   const [isVisible, setIsVisible] = useState(false)
@@ -19,7 +20,7 @@ export default function EmergencyCards() {
       number: "119",
       color: "bg-[#1d2b7d]",
       icon: AlertTriangle,
-      image: "/images/emergency.png",
+      image: user,
       delay: 0,
     },
     {
@@ -28,7 +29,7 @@ export default function EmergencyCards() {
       number: "017 276 477",
       color: "bg-[#1d2b7d]",
       icon: Phone,
-      image: "/images/support.png",
+      image: user,
       delay: 0.1,
     },
     {
@@ -37,7 +38,7 @@ export default function EmergencyCards() {
       number: "017 276 477",
       color: "bg-[#1d2b7d]",
       icon: Heart,
-      image: "/images/counseling.png",
+      image: user,
       delay: 0.2,
     },
   ]
@@ -50,11 +51,11 @@ export default function EmergencyCards() {
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: card.delay }}
-          className="rounded-xl overflow-hidden shadow-lg group"
+          className="rounded-xl overflow-hidden  shadow-lg group"
         >
           <div className="relative h-48">
             <Image
-              src={card.image || "/placeholder.svg"}
+              src={card.image || "user"}
               alt={card.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"

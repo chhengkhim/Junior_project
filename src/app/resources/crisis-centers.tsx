@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { MapPin, Phone, ExternalLink } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import user from "@/assets/user.jpg"
+import logo from "@/assets/logo8.png"
 
 export default function CrisisCenters() {
   const [isVisible, setIsVisible] = useState(false)
@@ -31,28 +33,28 @@ export default function CrisisCenters() {
       name: "Khmer-Soviet Friendship Hospital",
       address: "St 271, Phnom Penh",
       phone: "023 883 710",
-      image: "/images/hospital1.png",
+      image: logo,
       delay: 0,
     },
     {
       name: "Calmette Hospital",
       address: "3 Monivong Blvd (93), Phnom Penh",
       phone: "023 426 948",
-      image: "/images/hospital2.png",
+      image: logo,
       delay: 0.1,
     },
     {
       name: "TPO Cambodia",
       address: "#2&4, Corner of St 494 & 497, Sangkat Phsar Deum Thkov, Khan Chamkarmon, Phnom Penh",
       phone: "023 63 66 991 / 023 63 66 992",
-      image: "/images/tpo.png",
+      image: logo,
       delay: 0.2,
     },
     {
       name: "Mental Health Support Center",
       address: "Phnom Penh",
       phone: "023 XXX XXX",
-      image: "/images/center.png",
+      image: logo,
       delay: 0.3,
     },
   ]
@@ -69,7 +71,7 @@ export default function CrisisCenters() {
         >
           <div className="relative h-48">
             <Image
-              src={center.image || "/placeholder.svg"}
+              src={center.image || user.src}
               alt={center.name}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"

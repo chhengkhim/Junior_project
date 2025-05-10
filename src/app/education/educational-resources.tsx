@@ -9,6 +9,7 @@ import ResourceCard from "./resource-card"
 import DownloadableResource from "./downloadable-resource"
 import { Input } from "@/components/ui/input"
 import logo9 from "@/assets/logo9.png"
+import logo8 from "@/assets/logo8.png"
 
 
 export default function EducationalResources() {
@@ -38,7 +39,7 @@ export default function EducationalResources() {
     {
       title: "Understanding Anxiety",
       description: "Learn about the symptoms, causes, and management strategies for anxiety.",
-      image: "/images/anxiety.jpg",
+      image: logo8,
       category: "Mental Health",
       downloadUrl: "/resources/understanding-anxiety.pdf",
       delay: 0,
@@ -46,7 +47,7 @@ export default function EducationalResources() {
     {
       title: "Coping with Academic Stress",
       description: "Strategies to manage the pressures of university life and academic expectations.",
-      image: "/images/academic-stress.jpg",
+      image: logo8,
       category: "Stress Management",
       downloadUrl: "/resources/academic-stress.pdf",
       delay: 0.1,
@@ -54,7 +55,7 @@ export default function EducationalResources() {
     {
       title: "Building Resilience",
       description: "Develop skills to bounce back from challenges and grow stronger through adversity.",
-      image: "/images/resilience.jpg",
+      image: logo8,
       category: "Personal Growth",
       downloadUrl: "/resources/building-resilience.pdf",
       delay: 0.2,
@@ -62,7 +63,7 @@ export default function EducationalResources() {
     {
       title: "Mindfulness Practices",
       description: "Simple mindfulness techniques to reduce stress and improve mental wellbeing.",
-      image: "/images/mindfulness.jpg",
+      image: logo8,
       category: "Wellness",
       downloadUrl: "/resources/mindfulness-practices.pdf",
       delay: 0.3,
@@ -76,7 +77,7 @@ export default function EducationalResources() {
       fileSize: "2.4 MB",
       fileType: "PDF",
       downloadUrl: "/resources/anxiety-workbook.pdf",
-      icon: "/images/pdf-icon.png",
+      icon: logo8,
       delay: 0,
     },
     {
@@ -85,7 +86,7 @@ export default function EducationalResources() {
       fileSize: "3.1 MB",
       fileType: "PDF",
       downloadUrl: "/resources/stress-management.pdf",
-      icon: "/images/pdf-icon.png",
+      icon: logo8,
       delay: 0.1,
     },
     {
@@ -94,7 +95,7 @@ export default function EducationalResources() {
       fileSize: "15.8 MB",
       fileType: "ZIP",
       downloadUrl: "/resources/mindfulness-audio.zip",
-      icon: "/images/zip-icon.png",
+      icon: logo8,
       delay: 0.2,
     },
     {
@@ -103,7 +104,7 @@ export default function EducationalResources() {
       fileSize: "4.2 MB",
       fileType: "PDF",
       downloadUrl: "/resources/sleep-guide.pdf",
-      icon: "/images/pdf-icon.png",
+      icon: logo8,
       delay: 0.3,
     },
   ]

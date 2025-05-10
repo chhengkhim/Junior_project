@@ -15,7 +15,7 @@ export default function HeroSection() {
     <div className="relative bg-[#1d2b7d] rounded-3xl text-white overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-[#1d2b7d] to-[#1d2b7d]/80" />
-        <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10" />
+        <div className="absolute inset-0 bg-[url('/assets/user.png')] opacity-10" />
       </div>
 
       <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">

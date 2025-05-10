@@ -6,13 +6,14 @@ import { useState, useRef } from "react"
 import { ImageIcon, Link2, Hash, Smile, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import data from "@emoji-mart/data"
 import Picker from "@emoji-mart/react"
+import user from "@/assets/user.jpg"
 
 interface CreatePostProps {
   onPostCreated: (post: {
@@ -132,7 +133,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
       author: {
         name: "Current User",
         username: "@currentuser",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: user.src,
         timeAgo: "Just now",
         verified: false,
       },
@@ -172,8 +173,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
     >
       <div className="flex space-x-2 sm:space-x-3">
         <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-          <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Your profile" />
-          <AvatarFallback>CU</AvatarFallback>
+          <AvatarImage src={user.src} alt="Your profile" />
         </Avatar>
 
         <div className="flex-1 space-y-3">
@@ -192,7 +192,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                 <div key={index} className="relative rounded-lg overflow-hidden aspect-video">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={img || "/placeholder.svg"}
+                    src={img || user.src}
                     alt={`Uploaded preview ${index}`}
                     className="w-full h-full object-cover"
                   />
