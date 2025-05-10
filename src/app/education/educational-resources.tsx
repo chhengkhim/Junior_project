@@ -265,7 +265,7 @@ export default function EducationalResources() {
               {filteredResources.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {filteredResources.map((resource, index) => (
-                    <ResourceCard key={index} resource={resource} isVisible={isVisible} />
+                    <ResourceCard key={index} resource={{...resource, image: resource.image.src}} isVisible={isVisible} />
                   ))}
                 </div>
               ) : (
@@ -296,7 +296,14 @@ export default function EducationalResources() {
                 {filteredDownloads.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {filteredDownloads.map((resource, index) => (
-                      <DownloadableResource key={index} resource={resource} isVisible={isVisible} />
+                      <DownloadableResource 
+                        key={index} 
+                        resource={{
+                          ...resource,
+                          icon: resource.icon.src
+                        }} 
+                        isVisible={isVisible} 
+                      />
                     ))}
                   </div>
                 ) : (
