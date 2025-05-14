@@ -119,6 +119,7 @@ function HeroSection() {
     </section>
   );
 }
+<TeamSection />;
 
 function StatsSection() {
   const stats = [

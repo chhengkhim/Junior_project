@@ -1,9 +1,8 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from 'next/font/google';
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
-import { Sidebar } from "@/components/sidebar";
 import Loading from "@/components/loading";
 
 const geistSans = Geist({
@@ -56,26 +55,14 @@ export default function RootLayout({
         `}
       >
         <Loading />
-        <div className="flex flex-col h-screen">
-          {/* Fixed Navbar */}
-          <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-800">
-            <Navbar />
-          </div>
-
-          {/* Main content with sidebar and scrollable main */}
-          <div className="flex flex-1 overflow-hidden">
-            {/* Sidebar - Left */}
-            <div className="w-0 md:w-64 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 overflow-y-auto">
-              <Sidebar />
-            </div>
-
-            {/* Main content - Center */}
-            <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-950">
-              <div className="container mx-auto px-4 py-6 max-w-7xl">
-                {children}
-              </div>
-            </main>
-          </div>
+        <div className="flex min-h-screen">
+          {/* Navbar component already contains the sidebar */}
+          <Navbar />
+          
+          {/* Main content area with proper padding for sidebar */}
+          <main className="flex-1 pt-20 md:pl-64">
+            <div className="p-4">{children}</div>
+          </main>
         </div>
       </body>
     </html>

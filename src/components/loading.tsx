@@ -15,18 +15,18 @@ export default function LoadingScreen() {
           clearInterval(interval);
           return 100;
         }
-        return prev + 2; // Slower progress increment
+        return prev + 5; // ⏩ Increased speed
       });
-    }, 150); // Slower interval duration
+    }, 80); // ⏩ Faster interval
 
     const progressTimer = setTimeout(() => {
       if (progress >= 100) {
         setFadeOut(true);
         setTimeout(() => {
           setLoading(false);
-        }, 1000); // Slightly longer fade-out duration
+        }, 600); // Slightly shorter fade-out
       }
-    }, 3000); // Longer total loading duration
+    }, 2000); // ⏩ Shorter total duration
 
     return () => {
       clearInterval(interval);
@@ -44,11 +44,8 @@ export default function LoadingScreen() {
     >
       {/* Geometric background */}
       <div className="absolute inset-0 bg-[#1d2b7d] overflow-hidden">
-        {/* Geometric shapes */}
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#2a3c99] rounded-bl-full opacity-20 transform -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-3/4 h-3/4 bg-[#101745] rounded-tr-full opacity-30 transform translate-y-1/3 -translate-x-1/4" />
-
-        {/* Animated lines */}
         <div className="absolute inset-0">
           {[...Array(5)].map((_, i) => (
             <div
@@ -58,26 +55,24 @@ export default function LoadingScreen() {
                 top: `${20 * i + 10}%`,
                 left: 0,
                 right: 0,
-                animation: `scanLine 5s linear infinite ${i * 1}s`, // Slower animation
+                animation: `scanLine 5s linear infinite ${i * 1}s`,
               }}
             />
           ))}
         </div>
       </div>
 
-      {/* Main content */}
       <div className="relative z-10 flex flex-col items-center max-w-sm w-full">
-        {/* Logo with tech-inspired animation */}
         <div className="relative mb-12 brightness-125">
           <div className="w-40 h-40 animate-pulse brightness-125 relative mb-4 mx-auto">
             <div
               className="absolute inset-0 border-4 border-white opacity-20 rounded-full animate-spin"
-              style={{ animationDuration: "12s" }} // Slower spin
+              style={{ animationDuration: "12s" }}
             />
             <div
               className="absolute inset-2 border-2 border-dashed border-white opacity-10 rounded-full animate-spin"
               style={{
-                animationDuration: "16s", // Slower reverse spin
+                animationDuration: "16s",
                 animationDirection: "reverse",
               }}
             />
@@ -94,7 +89,6 @@ export default function LoadingScreen() {
           </div>
         </div>
 
-        {/* Digital-style progress indicator */}
         <div className="w-full px-8">
           <div className="flex justify-between mb-2">
             <span className="text-xs font-mono text-white opacity-70">
@@ -105,12 +99,11 @@ export default function LoadingScreen() {
             </span>
           </div>
 
-          {/* Segmented progress bar for tech look */}
           <div className="w-full h-3 bg-[#ffff]/20 rounded overflow-hidden flex">
             {[...Array(20)].map((_, i) => (
               <div
                 key={`segment-${i}`}
-                className="h-full transition-colors duration-500 ease-out border-r border-[#ffff]/20" // Slower transition
+                className="h-full transition-colors duration-500 ease-out border-r border-[#ffff]/20"
                 style={{
                   width: "5%",
                   backgroundColor:
@@ -124,7 +117,6 @@ export default function LoadingScreen() {
             ))}
           </div>
 
-          {/* Loading text with typewriter effect */}
           <div className="mt-6 text-center">
             <h3 className="text-lg font-mono text-white inline-flex overflow-hidden whitespace-nowrap">
               <span className="text-[#4affda]">&gt;</span>
@@ -135,7 +127,6 @@ export default function LoadingScreen() {
         </div>
       </div>
 
-      {/* Add custom animations */}
       <style jsx global>{`
         @keyframes scanLine {
           0% {
@@ -169,11 +160,11 @@ export default function LoadingScreen() {
           display: inline-block;
           overflow: hidden;
           white-space: nowrap;
-          animation: typewriter 5s steps(30) infinite alternate; // Slower typewriter effect
+          animation: typewriter 3s steps(30) infinite alternate;
         }
 
         .animate-blink {
-          animation: blink 1s infinite; // Slower blink
+          animation: blink 0.8s infinite;
         }
       `}</style>
     </div>
