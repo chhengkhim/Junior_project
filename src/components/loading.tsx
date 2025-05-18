@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import logo from "@/assets/logo8.png"
-import { BookOpen, GraduationCap, Lightbulb, Atom, Globe } from "lucide-react"
+import { BookOpen, GraduationCap, Lightbulb, Atom } from "lucide-react"
 
 export default function LoadingScreen() {
   const [loading, setLoading] = useState(true)
