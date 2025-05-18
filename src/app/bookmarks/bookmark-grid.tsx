@@ -379,7 +379,7 @@ export default function BookmarkGrid() {
                   <Button
                     size="sm"
                     variant="default"
-                    className="gap-1 bg-[#1d2b7d] hover:bg-[#1d2b7d]/90 dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]/90"
+                    className="gap-1 bg-[#1d2b7d] text-white hover:bg-[#1d2b7d]/90 dark:bg-[#1d2b7d] dark:hover:bg-[#1d2b7d]/90"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Add</span>
