@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import CommentSection from "./comment-section"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import user from "@/assets/user.jpg"
 
 // Define interfaces first to ensure type consistency
 interface Reply {
@@ -88,7 +89,7 @@ const initialPosts: Post[] = [
     id: "1",
     user: "Alan Patterson",
     username: "@alanpatterson",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: user.src,
     verified: true,
     content:
       "Just had an amazing breakfast meeting with @annaferguson and @davebishop! We discussed some exciting new ideas for our upcoming project. The coffee was fantastic too! 😊",
@@ -96,14 +97,14 @@ const initialPosts: Post[] = [
     feeling: "excited",
     location: "Downtown Café, New York",
     link: "",
-    images: ["/placeholder.svg?height=500&width=500"],
+    images: [user.src],
     likes: 42,
     comments: [
       {
         id: "c1",
         user: "Jane Smith",
         username: "@janesmith",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: user.src,
         content: "Looks like you had a great time! Can't wait to hear more about the project.",
         timestamp: "2023-05-14T10:30:00Z",
         likes: 5,
@@ -114,7 +115,7 @@ const initialPosts: Post[] = [
         id: "c2",
         user: "Dave Bishop",
         username: "@davebishop",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: user.src,
         content: "It was great meeting up! Looking forward to our next session.",
         timestamp: "2023-05-14T11:15:00Z",
         likes: 3,
@@ -130,21 +131,21 @@ const initialPosts: Post[] = [
     id: "2",
     user: "Sarah Johnson",
     username: "@sarahjohnson",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: user.src,
     verified: false,
     content: "Working on my thesis all night. The library is so peaceful at 2 AM!",
     hashtags: ["#gradschool", "#thesis", "#latenight"],
     feeling: "productive",
     location: "University Library",
     link: "",
-    images: [],
+    images: [user.src],
     likes: 28,
     comments: [
       {
         id: "c3",
         user: "Taylor Smith",
         username: "@taylorsmith",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: user.src,
         content: "Don't forget to take breaks!",
         timestamp: "2023-05-13T22:45:00Z",
         likes: 1,
@@ -171,7 +172,7 @@ const initialPosts: Post[] = [
     id: "3",
     user: "Michael Chen",
     username: "@michaelchen",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: user.src,
     verified: true,
     content:
       "Just launched our new product! After months of hard work, it's finally live. Check it out and let me know what you think!",
@@ -179,14 +180,14 @@ const initialPosts: Post[] = [
     feeling: "excited",
     location: "Tech Hub, San Francisco",
     link: "https://example.com/newproduct",
-    images: ["/placeholder.svg?height=500&width=500", "/placeholder.svg?height=500&width=500"],
+    images: [user.src],
     likes: 156,
     comments: [
       {
         id: "c4",
         user: "Jamie Lee",
         username: "@jamielee",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: user.src,
         content: "Congratulations! The product looks amazing!",
         timestamp: "2023-05-12T14:20:00Z",
         likes: 8,
@@ -562,7 +563,7 @@ export default function SocialFeed() {
         <CardContent className="p-4">
           <div className="flex items-start space-x-3">
             <Avatar className="h-10 w-10">
-              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User" />
+              <AvatarImage src={user.src} alt="User" />
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
             <div className="flex-1">
@@ -576,7 +577,7 @@ export default function SocialFeed() {
               {imagePreview && (
                 <div className="relative mt-2 w-full max-w-xs">
                   <Image
-                    src={imagePreview || "/placeholder.svg"}
+                    src={user.src}
                     alt="Preview"
                     width={200}
                     height={150}
@@ -726,7 +727,7 @@ export default function SocialFeed() {
             <CardHeader className="flex flex-row items-start p-4 space-y-0">
               <div className="flex items-start space-x-3">
                 <Avatar>
-                  <AvatarImage src={post.avatar || "/placeholder.svg"} alt={post.user} />
+                  <AvatarImage src={user.src} alt={post.user} />
                   <AvatarFallback>{post.user.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
@@ -809,7 +810,7 @@ export default function SocialFeed() {
                 <div className="relative">
                   <div className="overflow-hidden bg-gray-100 dark:bg-gray-800">
                     <Image
-                      src={post.images[currentIndex] || "/placeholder.svg"}
+                      src={user.src}
                       alt="Post content"
                       width={800}
                       height={500}

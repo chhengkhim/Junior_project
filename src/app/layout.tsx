@@ -1,6 +1,7 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from 'next/font/google';
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import Loading from "@/components/loading";
@@ -15,36 +16,32 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    template: "%MSU | MindSpeak Uniconfess",
-    default: "MindSpeak Uniconfess",
-  },
-  description:
-    "Welcome to our MindSpeak Uniconfess. Emergency Help - A Safe and Anonymous Support Feature for Students in Need",
-  keywords: [
-    "Mental Health",
-    "Student Support",
-    "Emergency Help",
-    "Anonymous",
-    "Educational Platform",
-    "Well-being",
-  ],
-  icons: {
-    icon: [
-      {
-        href: "/logo9.png",
-        url: "/logo9.png",
-      },
-    ],
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -56,14 +53,34 @@ export default function RootLayout({
       >
         <Loading />
         <div className="flex min-h-screen">
-          {/* Navbar component already contains the sidebar */}
           <Navbar />
-          
-          {/* Main content area with proper padding for sidebar */}
           <main className="flex-1 pt-20 md:pl-64">
             <div className="p-4">{children}</div>
           </main>
         </div>
+        {showScrollToTop && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-5 right-5 p-3 bg-[#1d2b7d] text-white rounded-full shadow-lg hover:bg-white hover:text-[#1d2b7d] transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-indigo-300"
+            aria-label="Scroll to top"
+          >
+            <span className="sr-only">Scroll to top</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </button>
+        )}
       </body>
     </html>
   );

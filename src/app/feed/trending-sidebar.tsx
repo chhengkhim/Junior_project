@@ -8,6 +8,8 @@ import { CalendarDays, Users, TrendingUp, Newspaper } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import user from "@/assets/user.jpg"
+import logo8 from "@/assets/logo8.png"
 
 export default function TrendingSidebar() {
   const sidebarRef = useRef<HTMLDivElement>(null)
@@ -93,7 +95,7 @@ export default function TrendingSidebar() {
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <Image
-                        src={person.avatar || "/placeholder.svg"}
+                        src={person.avatar || user.src}
                         alt={person.name}
                         width={40}
                         height={40}
@@ -126,11 +128,11 @@ export default function TrendingSidebar() {
                   <div key={index} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <div className="relative aspect-[16/9] mb-3 overflow-hidden rounded-md">
                       <Image
-                        src={event.image || "/placeholder.svg"}
+                        src={user.src}
                         alt={event.title}
                         width={300}
                         height={169}
-                        className="object-cover transition-transform hover:scale-105 duration-300"
+                        className="object-cover w-full transition-transform hover:scale-105 duration-300"
                       />
                       <Badge className="absolute top-2 right-2 bg-[#1d2b7d]">{event.type}</Badge>
                     </div>
@@ -191,7 +193,7 @@ export default function TrendingSidebar() {
                     {item.image && (
                       <div className="relative aspect-[16/9] mb-3 overflow-hidden rounded-md">
                         <Image
-                          src={item.image || "/placeholder.svg"}
+                          src={logo8.src}
                           alt={item.title}
                           width={300}
                           height={169}
@@ -227,9 +229,9 @@ const trendingTopics = [
 ]
 
 const whoToFollow = [
-  { name: "Jane Smith", username: "@janesmith", avatar: "/placeholder.svg?height=40&width=40" },
-  { name: "Robert Chen", username: "@robertchen", avatar: "/placeholder.svg?height=40&width=40" },
-  { name: "Priya Patel", username: "@priyapatel", avatar: "/placeholder.svg?height=40&width=40" },
+  { name: "Jane Smith", username: "@janesmith", avatar: user.src },
+  { name: "Robert Chen", username: "@robertchen", avatar: user.src },
+  { name: "Priya Patel", username: "@priyapatel", avatar: user.src },
 ]
 
 const events = [

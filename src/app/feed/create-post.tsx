@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ImageIcon, Link, Smile, X } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import user from "@/assets/user.jpg"
 
 interface CreatePostProps {
   onPostCreated: (post: { 
@@ -92,7 +93,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
               {images.map((img, index) => (
                 <div key={index} className="relative w-24 h-24">
                   <Image
-                    src={img || "/placeholder.svg"}
+                    src={img || user.src}
                     alt={`Preview ${index}`}
                     width={96}
                     height={96}
