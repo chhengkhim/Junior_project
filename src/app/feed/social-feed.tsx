@@ -15,6 +15,7 @@ import CommentSection from "./comment-section"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import user from "@/assets/user.jpg"
+import logo8 from "@/assets/logo8.png"
 
 // Define interfaces first to ensure type consistency
 interface Reply {
@@ -275,7 +276,7 @@ export default function SocialFeed() {
       id: Date.now().toString(),
       user: "Anonymous User",
       username: "@anonymous",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: user.src,
       verified: false,
       content: postContent,
       hashtags: allHashtags,
@@ -577,7 +578,7 @@ export default function SocialFeed() {
               {imagePreview && (
                 <div className="relative mt-2 w-full max-w-xs">
                   <Image
-                    src={user.src}
+                    src={imagePreview || "/placeholder.svg"}
                     alt="Preview"
                     width={200}
                     height={150}
@@ -727,7 +728,7 @@ export default function SocialFeed() {
             <CardHeader className="flex flex-row items-start p-4 space-y-0">
               <div className="flex items-start space-x-3">
                 <Avatar>
-                  <AvatarImage src={user.src} alt={post.user} />
+                  <AvatarImage src={logo8.src} alt={post.user} />
                   <AvatarFallback>{post.user.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
@@ -810,7 +811,7 @@ export default function SocialFeed() {
                 <div className="relative">
                   <div className="overflow-hidden bg-gray-100 dark:bg-gray-800">
                     <Image
-                      src={user.src}
+                      src={post.images[currentIndex] || "/placeholder.svg"}
                       alt="Post content"
                       width={800}
                       height={500}
