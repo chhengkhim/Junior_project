@@ -137,69 +137,31 @@ export function Sidebar({
         </div>
 
         {/* Anonymous Posts Dropdown */}
-        <div className="mb-1">
-          <Button
-            type="button"
-            onClick={() => toggleExpanded("Anonymous Posts")}
+        <div className="mb-1 mx-2">
+          <Link
+            href="/user-dashboard/feed"
             className={cn(
-              "flex w-full items-center justify-between px-6 py-3 text-gray-700 dark:text-gray-200 transition-all duration-300 ease-in-out rounded-md mx-2",
-              expandedItems["Anonymous Posts"] &&
-                "bg-indigo-50 dark:bg-indigo-900/30 text-[#1d2b7d] dark:text-white font-medium",
+              "flex items-center gap-3 px-6 py-3 rounded-md transition-all duration-300 ease-in-out",
+              activeItem === "/feed"
+                ? "bg-[#1d2b7d] dark:bg-white text-white dark:text-[#1d2b7d]"
+                : "text-gray-700 dark:text-gray-200",
             )}
-            aria-expanded={expandedItems["Anonymous Posts"] ? "true" : "false"}
+            onClick={() => handleItemClick("/feed")}
           >
-            <span className="flex items-center gap-3">
-              <EyeOff
-                className={cn(
-                  "h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300 ease-in-out",
-                  expandedItems["Anonymous Posts"] && "text-[#1d2b7d] dark:text-white",
-                )}
-              />
-              <span className="font-medium">Anonymous Posts</span>
-            </span>
-            <ChevronDown
+            <EyeOff
               className={cn(
-                "h-4 w-4 transition-transform duration-300 ease-in-out",
-                expandedItems["Anonymous Posts"] && "rotate-180",
+                "h-5 w-5 transition-colors duration-300 ease-in-out",
+                activeItem === "/feed" ? "text-white dark:text-[#1d2b7d]" : "text-gray-500 dark:text-gray-400",
               )}
-              aria-hidden="true"
             />
-          </Button>
-
-          <div
-            id="sidebar-anonymous-posts-menu"
-            className={cn(
-              "ml-14 space-y-1 pr-4 border-l-2 border-[#1d2b7d] dark:border-white pl-2 mt-1 mb-2 overflow-hidden transition-all duration-300 ease-in-out",
-              expandedItems["Anonymous Posts"] ? "max-h-40 opacity-100" : "max-h-0 opacity-0",
-            )}
-          >
-            <Link
-              href="/feed"
-              className={cn(
-                "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
-                activeItem === "/feed" && "bg-[#1d2b7d] dark:bg-white text-white dark:text-[#1d2b7d] font-medium",
-              )}
-              onClick={() => handleItemClick("/feed")}
-            >
-              <span className="flex items-center">New Feed</span>
-            </Link>
-            <Link
-              href="/trending"
-              className={cn(
-                "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
-                activeItem === "/trending" && "bg-[#1d2b7d] dark:bg-white text-white dark:text-[#1d2b7d] font-medium",
-              )}
-              onClick={() => handleItemClick("/trending")}
-            >
-              <span className="flex items-center">Trending Post</span>
-            </Link>
-          </div>
+            <span className="font-medium">Anonymous Posts</span>
+          </Link>
         </div>
 
         {/* Bookmarks */}
         <div className="mb-1 mx-2">
           <Link
-            href="/bookmarks"
+            href="/user-dashboard/bookmarks"
             className={cn(
               "flex items-center gap-3 px-6 py-3 rounded-md transition-all duration-300 ease-in-out",
               activeItem === "/bookmarks"
@@ -256,7 +218,7 @@ export function Sidebar({
           >
             <div>
               <Link
-                href="/resources"
+                href="/user-dashboard/resources"
                 className={cn(
                   "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
                   activeItem === "/resources" &&
@@ -271,7 +233,7 @@ export function Sidebar({
             </div>
             <div>
               <Link
-                href="/campus"
+                href="/user-dashboard/campus"
                 className={cn(
                   "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
                   activeItem === "/campus" && "bg-[#1d2b7d] dark:bg-white text-white dark:text-[#1d2b7d] font-medium",
@@ -285,7 +247,7 @@ export function Sidebar({
             </div>
             <div>
               <Link
-                href="/education"
+                href="/user-dashboard/education"
                 className={cn(
                   "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
                   activeItem === "/education" &&
@@ -304,7 +266,7 @@ export function Sidebar({
         {/* About Us */}
         <div className="mb-1 mx-2">
           <Link
-            href="/about"
+            href="/user-dashboard/about"
             className={cn(
               "flex items-center gap-3 px-6 py-3 rounded-md transition-all duration-300 ease-in-out",
               activeItem === "/about"
@@ -366,7 +328,7 @@ export function Sidebar({
           >
             <div>
               <Link
-                href="/faq"
+                href="/user-dashboard/faq"
                 className={cn(
                   "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
                   activeItem === "/faq" && "bg-[#1d2b7d] dark:bg-white text-white dark:text-[#1d2b7d] font-medium",
@@ -380,7 +342,7 @@ export function Sidebar({
             </div>
             <div>
               <Link
-                href="/notifications"
+                href="/user-dashboard/notifications"
                 className={cn(
                   "block py-2 pl-2 text-gray-700 dark:text-gray-300 transition-colors rounded-md",
                   activeItem === "/notifications" &&
@@ -399,7 +361,7 @@ export function Sidebar({
         {/* Rules */}
         <div className="mb-1 mx-2">
           <Link
-            href="/rule"
+            href="/user-dashboard/rule"
             className={cn(
               "flex items-center gap-3 px-6 py-3 rounded-md transition-all duration-300 ease-in-out",
               activeItem === "/rule"
@@ -421,7 +383,7 @@ export function Sidebar({
         {/* Contact Us */}
         <div className="mb-1 mx-2">
           <Link
-            href="/contact"
+            href="/user-dashboard/contact"
             className={cn(
               "flex items-center gap-3 px-6 py-3 rounded-md transition-all duration-300 ease-in-out",
               activeItem === "/contact"
