@@ -549,15 +549,6 @@ export default function Dashboard() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-3 md:mb-4">
-            <motion.h2
-              className="text-lg md:text-xl font-bold text-slate-800 flex items-center gap-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Users className="w-4 h-4 md:w-5 md:h-5 text-purple-600" />
-              User Management
-            </motion.h2>
             <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
               <AnimatePresence>
                 {selectedUsers.length > 0 && (
