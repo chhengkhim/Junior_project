@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,10 +9,27 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import logo from "@/assets/logo9.png";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+// Redux imports
+import { useAppDispatch } from "@/store/hooks";
+import { useAuth } from "@/store/hooks";
+import { loginUser, registerUser, clearError } from "@/store/slices/authSlice";
+import { LoginPayload, RegisterPayload } from "@/store/types/auth";
 
-export default function AuthPage() {
+interface AuthPageProps {
+  initialMode?: 'login' | 'signup';
+}
+
+export default function AuthPage({ initialMode = 'login' }: AuthPageProps) {
+  const router = useRouter();
+  
+  // Redux hooks
+  const dispatch = useAppDispatch();
+  const { user, isAuthenticated, isLoading, error } = useAuth();
+
   // State management
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(initialMode === 'login');
   const [showPassword, setShowPassword] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -25,8 +42,33 @@ export default function AuthPage() {
     lastName: "",
     email: "",
     password: "",
-    agreeToTerms: false,
+    isAnonymous: false,
   });
+
+  // Clear errors when switching between login/signup (but not on initial load)
+  useEffect(() => {
+    if (error) {
+      dispatch(clearError());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLogin, dispatch]); // Removed 'error' from dependencies to prevent clearing on error updates
+
+  // Redirect if user is already authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log("✅ User authenticated, redirecting...", { 
+        userName: user.name, 
+        userRole: user.role 
+      });
+      
+      // Redirect based on user role
+      if (user.role === 'admin') {
+        router.push('/admin-dashboard');
+      } else {
+        router.push('/user-dashboard');
+      }
+    }
+  }, [isAuthenticated, user, router]);
 
   const handleLoginChange = (field: string, value: string | boolean) => {
     setLoginData((prev) => ({ ...prev, [field]: value }));
@@ -41,16 +83,48 @@ export default function AuthPage() {
     setTimeout(() => {
       setIsLogin(!isLogin);
       setShowPassword(false);
+      // Clear errors when switching modes
+      dispatch(clearError());
       setTimeout(() => setIsAnimating(false), 50);
     }, 150);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isLogin) {
-      console.log("Login data:", loginData);
-    } else {
-      console.log("Signup data:", signupData);
+    
+    try {
+      if (isLogin) {
+        // Login flow
+        const loginPayload: LoginPayload = {
+          email: loginData.email,
+          password: loginData.password,
+        };
+        
+        console.log("🔐 Attempting login with:", { email: loginPayload.email });
+        await dispatch(loginUser(loginPayload)).unwrap();
+        console.log("✅ Login successful");
+      } else {
+        // Register flow
+        const registerPayload: RegisterPayload = {
+          name: `${signupData.firstName} ${signupData.lastName}`.trim(),
+          email: signupData.email,
+          password: signupData.password,
+          password_confirmation: signupData.password,
+          bio: "", // Optional bio, can be empty
+          is_anonymous: signupData.isAnonymous || false, // Ensure it's always a boolean
+        };
+        
+        console.log("📝 Attempting registration with:", { 
+          name: registerPayload.name, 
+          email: registerPayload.email,
+          isAnonymous: registerPayload.is_anonymous
+        });
+        await dispatch(registerUser(registerPayload)).unwrap();
+        console.log("✅ Registration successful");
+      }
+    } catch (error: unknown) {
+      console.error(`❌ ${isLogin ? 'Login' : 'Registration'} failed:`, error);
+      // Error is automatically handled by Redux and will show in the UI
     }
   };
 
@@ -85,14 +159,16 @@ export default function AuthPage() {
             alt="Logo"
             className="w-16 h-16 lg:w-20 animate-pulse lg:h-20 object-contain brightness-125"
           />
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-white/80 hover:text-white hover:bg-white/10 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 transition-all duration-200"
-        >
-          <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-          Back
-        </Button>
+        <Link href={isLogin ? "/auth/signup" : "/auth/login"} passHref>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-white/80 hover:text-white hover:bg-white/10 text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 transition-all duration-200 dark:text-black/80 dark:hover:text-black dark:hover:bg-black/10"
+          >
+            <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+            {isLogin ? "Sign up" : "Sign in"}
+          </Button>
+        </Link>
       </div>
 
       <div
@@ -149,13 +225,15 @@ export default function AuthPage() {
           <div className="text-white font-bold text-2xl tracking-wider">
             MINDSPEAK
           </div>
-          <Button
-            variant="ghost"
-            className="text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to website
-          </Button>
+          <Link href={isLogin ? "/auth/signup" : "/auth/login"} passHref>
+            <Button
+              variant="ghost"
+              className="text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 dark:text-black/80 dark:hover:text-black dark:hover:bg-black/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {isLogin ? "Back to sign up" : "Back to sign in"}
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -256,11 +334,52 @@ export default function AuthPage() {
                       type="button"
                       onClick={switchMode}
                       className="text-indigo-400 hover:text-indigo-300 underline font-medium transition-colors duration-200"
-                      disabled={isAnimating}
+                      disabled={isAnimating || isLoading}
                     >
                       {isLogin ? "Sign up" : "Log in"}
                     </button>
                   </p>
+                  
+                  {/* Error Display Banner */}
+                  {error && (
+                    <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg backdrop-blur-sm">
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0">
+                          <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          {Array.isArray(error) ? (
+                            error.length === 1 ? (
+                              <p className="text-red-400 text-sm font-medium">
+                                {error[0]}
+                              </p>
+                            ) : (
+                              <div className="space-y-1">
+                                <p className="text-red-400 text-sm font-semibold mb-2">
+                                  Please fix the following errors:
+                                </p>
+                                <ul className="space-y-1">
+                                  {error.map((errorMessage, index) => (
+                                    <li key={index} className="text-red-400 text-sm flex items-start">
+                                      <span className="mr-2 mt-1.5 w-1 h-1 bg-red-400 rounded-full flex-shrink-0"></span>
+                                      {errorMessage}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )
+                          ) : (
+                            <p className="text-red-400 text-sm font-medium">
+                              {String(error)}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                 </div>
 
                 {/* Forms */}
@@ -300,12 +419,12 @@ export default function AuthPage() {
                         >
                           Password
                         </Label>
-                        <button
-                          type="button"
+                        <Link 
+                          href="/auth/forgot-password"
                           className="text-xs sm:text-sm text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
                         >
                           Forgot?
-                        </button>
+                        </Link>
                       </div>
                       <div className="relative">
                         <Input
@@ -357,9 +476,10 @@ export default function AuthPage() {
                     <div className="pt-2">
                       <Button
                         type="submit"
-                        className="w-full bg-white text-[#1d2b7d] hover:bg-[#1d2b7d] hover:text-white font-semibold py-2.5 sm:py-3 h-11 sm:h-12 rounded-xl text-sm sm:text-base transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                        disabled={isLoading}
+                        className="w-full bg-white text-[#1d2b7d] hover:bg-[#1d2b7d] hover:text-white font-semibold py-2.5 sm:py-3 h-11 sm:h-12 rounded-xl text-sm sm:text-base transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       >
-                        Sign in
+                        {isLoading ? "Signing in..." : "Sign in"}
                       </Button>
                     </div>
                   </form>
@@ -468,27 +588,21 @@ export default function AuthPage() {
                       </div>
                     </div>
 
-                    {/* Terms Checkbox */}
+                    {/* Anonymous Checkbox */}
                     <div className="flex items-start space-x-3">
                       <Checkbox
-                        id="terms"
-                        checked={signupData.agreeToTerms}
+                        id="anonymous"
+                        checked={signupData.isAnonymous}
                         onCheckedChange={(checked) =>
-                          handleSignupChange("agreeToTerms", checked as boolean)
+                          handleSignupChange("isAnonymous", checked as boolean)
                         }
                         className="border-slate-600 data-[state=checked]:bg-indigo-600 data-[state=checked]:border-indigo-600 data-[state=checked]:text-white h-4 w-4 sm:h-5 sm:w-5 rounded-md transition-all duration-200 mt-0.5"
                       />
                       <Label
-                        htmlFor="terms"
+                        htmlFor="anonymous"
                         className="text-slate-300 text-xs sm:text-sm leading-relaxed"
                       >
-                        I agree to the{" "}
-                        <a
-                          href="#"
-                          className="text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
-                        >
-                          Terms & Conditions
-                        </a>
+                        Remain Anonymous
                       </Label>
                     </div>
 
@@ -496,28 +610,16 @@ export default function AuthPage() {
                     <div className="pt-2">
                       <Button
                         type="submit"
-                        className="w-full bg-white text-[#1d2b7d] hover:bg-[#1d2b7d] hover:text-white font-semibold py-2.5 sm:py-3 h-11 sm:h-12 rounded-xl text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
-                        disabled={!signupData.agreeToTerms}
+                        className="w-full bg-white text-[#1d2b7d] hover:bg-[#1d2b7d] hover:text-white font-semibold py-2.5 sm:py-3 h-11 sm:h-12 rounded-xl text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl disabled:transform-none"
+                        disabled={isLoading}
                       >
-                        Create account
+                        {isLoading ? "Creating account..." : "Create account"}
                       </Button>
                     </div>
                   </form>
                 )}
 
-                {/* Additional Options */}
-                <div className="text-center pt-3 sm:pt-4">
-                  <p className="text-slate-400 text-xs sm:text-sm">
-                    Having trouble{" "}
-                    {isLogin ? "signing in" : "creating an account"}?{" "}
-                    <a
-                      href="#"
-                      className="text-indigo-400 hover:text-indigo-300 transition-colors duration-200"
-                    >
-                      Get help
-                    </a>
-                  </p>
-                </div>
+
               </div>
             </div>
 
